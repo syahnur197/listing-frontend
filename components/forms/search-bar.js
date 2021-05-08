@@ -8,7 +8,7 @@ export default function SearchBar() {
           type="text"
           name="search_term"
           id="search_term"
-          className="focus:ring-primary-500 focus:border-primary-500 block w-full pr-10 sm:text-sm border-gray-300 rounded-md"
+          className="focus:ring-primary-500 focus:border-primary-500 block w-full pr-10 sm:text-sm border-gray-300 rounded-md md:py-4 md:text-xl"
           placeholder="Search item..."
         />
         <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">

@@ -1,0 +1,15 @@
+.hero {
+  position: relative;
+}
+.hero::before {
+  content: "";
+  background-image: url("/background/items.jpg");
+  background-size: cover;
+  background-position: center;
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  bottom: 0px;
+  left: 0px;
+  opacity: 0.3;
+}

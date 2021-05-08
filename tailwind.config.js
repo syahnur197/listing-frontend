@@ -6,6 +6,9 @@ module.exports = {
   darkMode: false, // or 'media' or 'class'
   theme: {
     extend: {
+      backgroundImage: (theme) => ({
+        "items-background": "url('/background/items.jpg')",
+      }),
       colors: {
         primary: colors.emerald,
         secondary: colors.cyan,

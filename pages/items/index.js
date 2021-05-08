@@ -1,7 +1,7 @@
 import Head from "next/head";
-import SearchBar from "../components/forms/search-bar";
-import Item from "../components/items/item";
-import styles from "./../styles/items.module.css";
+import SearchBar from "../../components/forms/search-bar";
+import Item from "../../components/items/item";
+import styles from "../../styles/items.module.css";
 
 const items = [
   {
