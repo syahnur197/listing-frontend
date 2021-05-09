@@ -1,3 +1,4 @@
+import Head from "next/head";
 import "tailwindcss/tailwind.css";
 import Footer from "../components/footer";
 import Header from "../components/shared/header";
@@ -5,8 +6,13 @@ import Header from "../components/shared/header";
 function MyApp({ Component, pageProps }) {
   return (
     <>
+      <Head>
+        <title>BruListing</title>
+      </Head>
       <Header />
-      <Component {...pageProps} />
+      <div className="bg-white font-sans">
+        <Component {...pageProps} />
+      </div>
       <Footer />
     </>
   );

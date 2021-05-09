@@ -10,8 +10,8 @@ module.exports = {
         "items-background": "url('/background/items.jpg')",
       }),
       colors: {
-        primary: colors.emerald,
         secondary: colors.cyan,
+        primary: colors.emerald,
       },
       fontFamily: {
         sans: ["Helvetica Neue", "Arial", "sans-serif"],
