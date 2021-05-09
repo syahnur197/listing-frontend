@@ -15,6 +15,7 @@ export const items = [
       id: 0,
       first_name: "admin",
       last_name: "admin",
+      mobile_number: "+6738990219",
     },
   },
   {
@@ -33,6 +34,7 @@ export const items = [
       id: 0,
       first_name: "admin",
       last_name: "admin",
+      mobile_number: "+6738990219",
     },
   },
   {
@@ -51,6 +53,7 @@ export const items = [
       id: 0,
       first_name: "admin",
       last_name: "admin",
+      mobile_number: "+6738990219",
     },
   },
   {
@@ -69,6 +72,7 @@ export const items = [
       id: 0,
       first_name: "admin",
       last_name: "admin",
+      mobile_number: "+6738990219",
     },
   },
   {
@@ -87,6 +91,7 @@ export const items = [
       id: 0,
       first_name: "admin",
       last_name: "admin",
+      mobile_number: "+6738990219",
     },
   },
 ];
