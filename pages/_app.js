@@ -1,9 +1,15 @@
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { useEffect } from "react";
+import { Router } from "next/router";
 import "tailwindcss/tailwind.css";
 import Footer from "../components/footer";
 import Header from "../components/shared/header";
+import NProgress from "nprogress";
+import "nprogress/nprogress.css";
+
+Router.events.on("routeChangeStart", () => NProgress.start());
+Router.events.on("routeChangeComplete", () => NProgress.done());
+Router.events.on("routeChangeError", () => NProgress.done());
 
 function MyApp({ Component, pageProps }) {
   const router = useRouter();
