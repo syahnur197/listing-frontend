@@ -1,7 +1,9 @@
 export default function Logo() {
   return (
     <>
-      <h1 className="font-bold text-3xl text-primary-100">BruListing</h1>
+      <h1 className="text-center text-3xl font-extrabold text-gray-900">
+        Bru<span className="text-primary-600">Listing</span>
+      </h1>
     </>
   );
 }
