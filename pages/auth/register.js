@@ -1,6 +1,6 @@
-import { LockClosedIcon } from "@heroicons/react/solid";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import Logo from "../../components/shared/logo";
 
 export default function Register() {
   const router = useRouter();
@@ -21,9 +21,7 @@ export default function Register() {
         <div>
           <Link href="/">
             <a>
-              <h1 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-                Bru<span className="text-primary-600">Listing</span>
-              </h1>
+              <Logo />
             </a>
           </Link>
         </div>

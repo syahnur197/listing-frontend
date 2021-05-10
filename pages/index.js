@@ -5,6 +5,7 @@ import { Button } from "../components/shared/buttons";
 import Link from "next/link";
 import { items } from "../dummy-data/items";
 import Container from "../components/shared/container";
+import { DocumentAddIcon, PlusIcon } from "@heroicons/react/solid";
 
 export default function Home() {
   return (
@@ -13,9 +14,18 @@ export default function Home() {
         <SearchBar />
       </ItemsBanner>
       <Container>
-        <p className="text-xs md:text-sm text-gray-500 font-thin mb-4">
-          Page 1 of 200 items
-        </p>
+        <div className="flex flex-row justify-between pyt-2 pb-4   items-center">
+          <p className="text-xs md:text-sm text-gray-500 font-thin">
+            Page 1 of 200 items
+          </p>
+          <button className="flex bg-primary-300 text-primary-800 hover:bg-primary-400 hover:text-primary-900 py-1 pl-1 pr-2 md:py-2 md:px-4 border border-transparent text-base md:text-lg font-medium ">
+            <PlusIcon
+              className="h-5 w-5 md:h-7 md:w-7 text-primary-500 group-hover:text-primary-400 mr-2"
+              aria-hidden="true"
+            />
+            Add Item
+          </button>
+        </div>
         <ul className="space-y-4">
           {items.map((item, index) => (
             <li
