@@ -93,9 +93,17 @@ function ItemInformation({ item }) {
                 {item.description}
               </dd>
             </div>
-            <div className="flex space-x-1">
-              {item.tags.map((tag) => (
-                <Badge>{tag}</Badge>
+            <div className="hidden py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+              <dt className="text-sm font-medium text-gray-500">Tags</dt>
+              <dd className="flex flex-row space-x-2">
+                {item.tags.map((tag, index) => (
+                  <Badge key={index}>{tag}</Badge>
+                ))}
+              </dd>
+            </div>
+            <div className="flex space-x-1 md:hidden">
+              {item.tags.map((tag, index) => (
+                <Badge key={index}>{tag}</Badge>
               ))}
             </div>
           </dl>

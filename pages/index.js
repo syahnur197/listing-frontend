@@ -17,12 +17,12 @@ export default function Home() {
           Page 1 of 200 items
         </p>
         <ul className="space-y-4">
-          {items.map((item) => (
+          {items.map((item, index) => (
             <li
-              key={item.id}
+              key={index}
               className="bg-white shadow overflow-hidden px-6 py-4 border hover:border-primary-300"
             >
-              <Link href={`items/${item.id}`}>
+              <Link href={`/items/${item.id}`}>
                 <a>
                   <Item item={item} />
                 </a>

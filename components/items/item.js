@@ -9,7 +9,7 @@ export default function Item({ item }) {
       </p>
       <p className="text-gray-600 md:text-lg">
         Seller:
-        <p className="inline ml-1 font-semibold capitalize">{`${item.user.first_name} ${item.user.last_name}`}</p>
+        <span className="inline ml-1 font-semibold capitalize">{`${item.user.first_name} ${item.user.last_name}`}</span>
       </p>
 
       <div className="grid grid-cols-3 gap-2">
@@ -21,9 +21,9 @@ export default function Item({ item }) {
           <p className="font-normal text-xs text-gray-500">
             {dayjs(item.created_at).fromNow()}
           </p>
-          <div className="flex space-x-1">
-            {item.tags.map((tag) => (
-              <Badge>{tag}</Badge>
+          <div className="flex space-x-1 py-2">
+            {item.tags.map((tag, index) => (
+              <Badge key={index}>{tag}</Badge>
             ))}
           </div>
         </div>
