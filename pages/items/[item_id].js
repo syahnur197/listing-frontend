@@ -155,10 +155,23 @@ export default function ItemPage({ item }) {
   );
 }
 
-export async function getServerSideProps(context) {
+export async function getStaticProps(context) {
   const { item_id } = context.params;
   const item = items.find((_item) => parseInt(_item.id) === parseInt(item_id));
   return {
     props: { item },
+    revalidate: 30,
   };
+}
+
+export async function getStaticPaths() {
+  const paths = items.map((item) => {
+    return {
+      params: {
+        item_id: item.id.toString(),
+      },
+    };
+  });
+
+  return { paths, fallback: true };
 }
