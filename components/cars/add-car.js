@@ -1,7 +1,20 @@
+import { useState } from "react/cjs/react.development";
 import { bodyTypes, brands, driveTypes, fuelTypes } from "../../dummy-data/car";
 import SelectMenu from "../shared/select-menu";
 
 export default function AddCar() {
+  const currentYear = new Date().getFullYear();
+  const [_car, _setCar] = useState({
+    brand: null,
+    body_type: null,
+    fuel_type: null,
+    drive_type: null,
+    year: currentYear - 7,
+    mileage: null,
+    price: null,
+    colour: null,
+    sellers_note: null,
+  });
   return (
     <form className="space-y-4 ">
       <div className="pt-8 space-y-6 sm:pt-10 sm:space-y-2">
@@ -110,6 +123,32 @@ export default function AddCar() {
 
           <div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:pt-5">
             <label
+              htmlFor="year"
+              className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
+            >
+              Year
+            </label>
+            <div className="mt-1 sm:mt-0 sm:col-span-2">
+              <input
+                min={currentYear - 40}
+                max={currentYear}
+                value={_car.year}
+                onChange={(event) => {
+                  _setCar({
+                    ..._car,
+                    year: event.target.value,
+                  });
+                }}
+                type="number"
+                name="year"
+                id="year"
+                className="max-w-xl block w-full shadow-sm focus:ring-primary-500 focus:border-primary-500 sm:text-sm border-gray-300"
+              />
+            </div>
+          </div>
+
+          <div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:pt-5">
+            <label
               htmlFor="mileage"
               className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
             >
@@ -117,9 +156,17 @@ export default function AddCar() {
             </label>
             <div className="mt-1 sm:mt-0 sm:col-span-2">
               <input
+                min="0"
                 type="number"
                 name="mileage"
                 id="mileage"
+                value={_car.mileage}
+                onChange={(event) => {
+                  _setCar({
+                    ..._car,
+                    mileage: event.target.value,
+                  });
+                }}
                 className="max-w-xl block w-full shadow-sm focus:ring-primary-500 focus:border-primary-500 sm:text-sm border-gray-300"
               />
             </div>
@@ -134,9 +181,17 @@ export default function AddCar() {
             </label>
             <div className="mt-1 sm:mt-0 sm:col-span-2">
               <input
+                min="0"
                 type="number"
                 name="price"
                 id="price"
+                value={_car.price}
+                onChange={(event) => {
+                  _setCar({
+                    ..._car,
+                    price: event.target.value,
+                  });
+                }}
                 className="max-w-xl block w-full shadow-sm focus:ring-primary-500 focus:border-primary-500 sm:text-sm border-gray-300"
               />
             </div>
@@ -154,8 +209,39 @@ export default function AddCar() {
                 type="text"
                 name="colour"
                 id="colour"
+                value={_car.colour}
+                onChange={(event) => {
+                  _setCar({
+                    ..._car,
+                    colour: event.target.value,
+                  });
+                }}
                 className="max-w-xl block w-full shadow-sm focus:ring-primary-500 focus:border-primary-500 sm:text-sm border-gray-300"
               />
+            </div>
+          </div>
+
+          <div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:pt-5">
+            <label
+              htmlFor="sellers_note"
+              className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
+            >
+              Seller's Note
+            </label>
+            <div className="mt-1 sm:mt-0 sm:col-span-2">
+              <textarea
+                name="sellers_note"
+                id="sellers_note"
+                className="resize-none max-w-xl block w-full shadow-sm focus:ring-primary-500 focus:border-primary-500 sm:text-sm border-gray-300"
+                rows="10"
+                value={_car.sellers_note}
+                onChange={(event) => {
+                  _setCar({
+                    ..._car,
+                    sellers_note: event.target.value,
+                  });
+                }}
+              ></textarea>
             </div>
           </div>
         </div>
