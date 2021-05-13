@@ -22,7 +22,7 @@ function SellerInformation({ item, setModalShown, inquiry, setInquiry }) {
             <div className="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
               <dt className="text-sm font-medium text-gray-500">Name</dt>
               <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2 capitalize">
-                {item.user.first_name} {item.user.last_name}
+                {item?.user.first_name} {item?.user.last_name}
               </dd>
             </div>
             {/* The reason why I hid the mobile number is due to security concern, it's better to handle it on the backend */}
@@ -31,7 +31,7 @@ function SellerInformation({ item, setModalShown, inquiry, setInquiry }) {
                 Phone Number
               </dt>
               <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2 capitalize">
-                {item.user.mobile_number}
+                {item?.user.mobile_number}
               </dd>
             </div> */}
             <div className="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
@@ -75,7 +75,7 @@ function ItemInformation({ item }) {
       <div className="bg-white shadow overflow-hidden">
         <div className="bg-white px-4 py-5 border-t border-b border-gray-200 sm:px-6">
           <h3 className="font-bold text-2xl md:text-3xl text-gray-800 capitalize">
-            {item.name}
+            {item?.name}
           </h3>
         </div>
         <div className="border-gray-200 px-4 py-5 sm:p-0">
@@ -83,25 +83,25 @@ function ItemInformation({ item }) {
             <div className="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
               <dt className="text-sm font-medium text-gray-500">Price</dt>
               <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                B$ {item.price}
+                B$ {item?.price}
               </dd>
             </div>
             <div className="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
               <dt className="text-sm font-medium text-gray-500">Description</dt>
               <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                {item.description}
+                {item?.description}
               </dd>
             </div>
             <div className="hidden py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
               <dt className="text-sm font-medium text-gray-500">Tags</dt>
               <dd className="flex flex-row space-x-2">
-                {item.tags.map((tag, index) => (
+                {item?.tags.map((tag, index) => (
                   <Badge key={index}>{tag}</Badge>
                 ))}
               </dd>
             </div>
             <div className="flex space-x-1 md:hidden">
-              {item.tags.map((tag, index) => (
+              {item?.tags.map((tag, index) => (
                 <Badge key={index}>{tag}</Badge>
               ))}
             </div>
@@ -118,12 +118,12 @@ export default function ItemPage({ item }) {
   const router = useRouter();
 
   const [_inquiry, _setInquiry] = useState(
-    `I would like to inquire about ${item.name}`
+    `I would like to inquire about ${item?.name}`
   );
 
   const sendWhatsappMessage = () => {
     const api_url = "https://api.whatsapp.com/send/";
-    const phone = item.user?.mobile_number;
+    const phone = item?.user?.mobile_number;
     const text = encodeURIComponent(_inquiry);
 
     const button_url = `${api_url}?phone=${phone}&text=${text}`;
@@ -157,7 +157,7 @@ export default function ItemPage({ item }) {
 
 export async function getStaticProps(context) {
   const { item_id } = context.params;
-  const item = items.find((_item) => parseInt(_item.id) === parseInt(item_id));
+  const item = items.find((_item) => _item.id.toString() === item_id);
   return {
     props: { item },
     revalidate: 30,
@@ -168,7 +168,7 @@ export async function getStaticPaths() {
   const paths = items.map((item) => {
     return {
       params: {
-        item_id: item.id.toString(),
+        item_id: item?.id.toString(),
       },
     };
   });
