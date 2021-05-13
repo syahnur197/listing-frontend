@@ -10,8 +10,8 @@ const navigation = [
 export default function Header() {
   return (
     <header className="">
-      <nav className="mx-auto lg:px-8 " aria-label="Top">
-        <div className="w-full px-4 py-6 flex items-center justify-between border-primary-500 lg:border-none bg-white">
+      <nav className="max-w-7xl mx-auto sm:px-6 lg:px-8 " aria-label="Top">
+        <div className="w-full px-2 py-6 flex items-center justify-between border-primary-500 lg:border-none bg-white">
           <div className="flex items-center">
             <Link href="/">
               <a>
@@ -28,7 +28,7 @@ export default function Header() {
               ))}
             </div>
           </div>
-          <div className="ml-10 space-x-2 ">
+          <div className="ml-10 space-x-1 ">
             <Link href="/auth/login">
               <a className="inline-block bg-primary-500 py-1 px-2 border border-transparent text-base font-medium text-white hover:bg-opacity-75">
                 Log in
