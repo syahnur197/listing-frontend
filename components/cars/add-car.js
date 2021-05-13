@@ -1,4 +1,4 @@
-import { useState } from "react/cjs/react.development";
+import { useState } from "react";
 import { bodyTypes, brands, driveTypes, fuelTypes } from "../../dummy-data/car";
 import SelectMenu from "../shared/select-menu";
 
