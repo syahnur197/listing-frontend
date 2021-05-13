@@ -7,18 +7,25 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
-export default function SelectMenu({ label, selections }) {
+export default function SelectMenu({ label, selections, className }) {
   const [selected, setSelected] = useState(selections[0]);
 
   return (
     <Listbox value={selected} onChange={setSelected}>
       {({ open }) => (
         <div className="mb-6">
-          <Listbox.Label className="block text-lg font-semibold text-gray-700">
-            {label}
-          </Listbox.Label>
+          {label && (
+            <Listbox.Label className="block text-lg font-semibold text-gray-700">
+              {label}
+            </Listbox.Label>
+          )}
           <div className="mt-1 relative">
-            <Listbox.Button className="bg-white relative w-full border border-gray-300 shadow-sm pl-3 pr-10 py-2 text-left cursor-default focus:outline-none focus:ring-1 focus:ring-primary-500 focus:border-primary-500 sm:text-sm">
+            <Listbox.Button
+              className={
+                className +
+                " bg-white relative w-full border border-gray-300 shadow-sm pl-3 pr-10 py-2 text-left cursor-default focus:outline-none focus:ring-1 focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
+              }
+            >
               <span className="block truncate">{selected.name}</span>
               <span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
                 <SelectorIcon
@@ -37,7 +44,10 @@ export default function SelectMenu({ label, selections }) {
             >
               <Listbox.Options
                 static
-                className="absolute z-10 mt-1 w-full bg-white shadow-lg max-h-60 py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm"
+                className={
+                  className +
+                  " absolute z-10 mt-1 w-full bg-white shadow-lg max-h-60 py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm"
+                }
               >
                 {selections.map((selection) => (
                   <Listbox.Option

@@ -1,15 +1,15 @@
-import SearchBar from "../components/forms/search-bar";
-import CarsBanner from "../components/cars/cars-banner";
-import CarsList from "../components/cars/cars-list";
-import GridContainer from "../components/shared/grid-container";
-import SelectMenu from "../components/shared/select-menu";
+import SearchBar from "../../components/forms/search-bar";
+import CarsBanner from "../../components/cars/cars-banner";
+import CarsList from "../../components/cars/cars-list";
+import GridContainer from "../../components/shared/grid-container";
+import SelectMenu from "../../components/shared/select-menu";
 import {
   bodyTypes,
   brands,
   fuelTypes,
   transmissions,
   driveTypes,
-} from "../dummy-data/car";
+} from "../../dummy-data/car";
 
 export default function Cars() {
   return (

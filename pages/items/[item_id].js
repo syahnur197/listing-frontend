@@ -158,6 +158,14 @@ export default function ItemPage({ item }) {
 export async function getStaticProps(context) {
   const { item_id } = context.params;
   const item = items.find((_item) => _item.id.toString() === item_id);
+
+  if (!item) {
+    return {
+      props: { item },
+      notFound: true,
+    };
+  }
+
   return {
     props: { item },
     revalidate: 30,
