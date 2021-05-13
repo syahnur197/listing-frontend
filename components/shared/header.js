@@ -3,8 +3,8 @@ import Logo from "./logo";
 
 const navigation = [
   { name: "Items", href: "/" },
-  { name: "Cars", href: "/" },
-  { name: "Jobs", href: "#" },
+  { name: "Cars", href: "/cars" },
+  // { name: "Jobs", href: "#" },
 ];
 
 export default function Header() {

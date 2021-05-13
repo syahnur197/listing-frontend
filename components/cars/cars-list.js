@@ -1,10 +1,10 @@
 import { PlusIcon } from "@heroicons/react/solid";
 import Link from "next/link";
 import { items } from "../../dummy-data/items";
-import { Button } from "../../components/shared/buttons";
-import Item from "../../components/items/item";
+import { Button } from "../shared/buttons";
+import Item from "../items/item";
 
-export default function ItemsList() {
+export default function CarsList() {
   return (
     <>
       <div className="flex flex-row justify-between py-2 pb-4 items-center">
@@ -16,7 +16,7 @@ export default function ItemsList() {
             className="h-5 w-5 md:h-7 md:w-7 text-primary-500 group-hover:text-primary-400 mr-2"
             aria-hidden="true"
           />
-          Add Item
+          Add Car
         </button>
       </div>
       <ul className="space-y-4">
