@@ -19,7 +19,7 @@ export function Button({
       "bg-orange-300 text-orange-800 hover:bg-orange-400 hover:text-orange-900",
   };
 
-  const classNames = `mt-8 mb-4 py-4 w-full text-2xl font-bold ${buttonStyles[buttonStyle]} transition duration-100 ease-out ${className}`;
+  const classNames = `mt-4 mb-4 md:mt-8 py-1 md:py-4 w-full text-xl md:text-2xl font-bold ${buttonStyles[buttonStyle]} transition duration-100 ease-out ${className}`;
 
   return (
     <button {...rest} className={classNames}>

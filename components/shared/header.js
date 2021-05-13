@@ -3,16 +3,14 @@ import Logo from "./logo";
 
 const navigation = [
   { name: "Items", href: "/" },
+  { name: "Cars", href: "/" },
   { name: "Jobs", href: "#" },
-  { name: "Contact Us", href: "#" },
-  //   { name: "Docs", href: "#" },
-  //   { name: "Company", href: "#" },
 ];
 
 export default function Header() {
   return (
     <header className="">
-      <nav className="max-w-7xl mx-auto sm:px-6 lg:px-8 " aria-label="Top">
+      <nav className="mx-auto lg:px-8 " aria-label="Top">
         <div className="w-full px-4 py-6 flex items-center justify-between border-primary-500 lg:border-none bg-white">
           <div className="flex items-center">
             <Link href="/">

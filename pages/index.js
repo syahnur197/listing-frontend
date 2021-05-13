@@ -1,11 +1,11 @@
+import { PlusIcon } from "@heroicons/react/solid";
+import Link from "next/link";
 import SearchBar from "../components/forms/search-bar";
 import Item from "../components/items/item";
 import ItemsBanner from "../components/items/items-banner";
 import { Button } from "../components/shared/buttons";
-import Link from "next/link";
-import { items } from "../dummy-data/items";
 import Container from "../components/shared/container";
-import { DocumentAddIcon, PlusIcon } from "@heroicons/react/solid";
+import { items } from "../dummy-data/items";
 
 export default function Home() {
   return (
@@ -14,7 +14,7 @@ export default function Home() {
         <SearchBar />
       </ItemsBanner>
       <Container>
-        <div className="flex flex-row justify-between pyt-2 pb-4   items-center">
+        <div className="flex flex-row justify-between py-2 pb-4 items-center">
           <p className="text-xs md:text-sm text-gray-500 font-thin">
             Page 1 of 200 items
           </p>
@@ -30,7 +30,7 @@ export default function Home() {
           {items.map((item, index) => (
             <li
               key={index}
-              className="bg-white shadow overflow-hidden px-6 py-4 border hover:border-primary-300"
+              className="bg-white shadow overflow-hidden border hover:border-primary-300"
             >
               <Link href={`/items/${item.id}`}>
                 <a>

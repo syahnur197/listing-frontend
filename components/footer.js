@@ -1,6 +1,9 @@
 /* This example requires Tailwind CSS v2.0+ */
 const navigation = {
-  main: [{ name: "About", href: "#" }],
+  main: [
+    { name: "About", href: "#" },
+    { name: "Contact Us", href: "#" },
+  ],
 };
 
 const currentYear = new Date().getFullYear();

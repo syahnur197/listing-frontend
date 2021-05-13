@@ -11,7 +11,7 @@ import { Modal } from "../../components/shared/modals";
 function SellerInformation({ item, setModalShown, inquiry, setInquiry }) {
   return (
     <>
-      <div className="bg-white shadow overflow-hidden sm:rounded-lg mt-8">
+      <div className="bg-white shadow overflow-hidden mt-8">
         <div className="bg-white px-4 py-2 border-t border-b border-gray-200 sm:px-6">
           <h3 className="font-semibold text-lg text-gray-800">
             Seller's Information
@@ -25,14 +25,15 @@ function SellerInformation({ item, setModalShown, inquiry, setInquiry }) {
                 {item.user.first_name} {item.user.last_name}
               </dd>
             </div>
-            <div className="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+            {/* The reason why I hid the mobile number is due to security concern, it's better to handle it on the backend */}
+            {/* <div className="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
               <dt className="text-sm font-medium text-gray-500">
                 Phone Number
               </dt>
               <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2 capitalize">
                 {item.user.mobile_number}
               </dd>
-            </div>
+            </div> */}
             <div className="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
               <dt className="text-sm font-medium text-gray-500">
                 Contact via WhatsApp
@@ -44,14 +45,14 @@ function SellerInformation({ item, setModalShown, inquiry, setInquiry }) {
                   onChange={(event) => setInquiry(event.target.value)}
                 ></textarea>
                 <button
-                  className="mt-2 mb-2 py-2 w-full text-xl font-bold transition duration-100 ease-out bg-[#25D366] flex flex-row justify-center items-center"
+                  className="mt-2 mb-2 py-1 md:py-2 w-full text-base md:text-lg font-bold transition duration-100 ease-out bg-[#25D366] flex flex-row justify-center items-center"
                   onClick={() => setModalShown(true)}
                 >
                   <FontAwesomeIcon
                     icon={faWhatsapp}
-                    className="mr-1 text-white text-3xl"
+                    className="mr-1 text-white text-2xl md:text-3xl"
                   />
-                  Send Text
+                  Send
                 </button>
               </dd>
             </div>
@@ -65,15 +66,13 @@ function SellerInformation({ item, setModalShown, inquiry, setInquiry }) {
 function ItemInformation({ item }) {
   return (
     <>
-      <div className="bg-white shadow overflow-hidden sm:rounded-lg mb-4">
-        <div className="px-4 py-5 sm:px-6">
-          <div className="py-32 bg-gray-200 flex place-content-center">
-            <p className="text-lg">Insert Image Here</p>
-          </div>
+      <div className="bg-white shadow overflow-hidden mb-4 md:px-6 md:py-5">
+        <div className="py-32 md:py-64 bg-gray-200 flex place-content-center">
+          <p className="text-lg">Insert Image Here</p>
         </div>
       </div>
 
-      <div className="bg-white shadow overflow-hidden sm:rounded-lg">
+      <div className="bg-white shadow overflow-hidden">
         <div className="bg-white px-4 py-5 border-t border-b border-gray-200 sm:px-6">
           <h3 className="font-bold text-2xl md:text-3xl text-gray-800 capitalize">
             {item.name}
