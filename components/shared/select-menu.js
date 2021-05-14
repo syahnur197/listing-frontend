@@ -1,5 +1,5 @@
 /* This example requires Tailwind CSS v2.0+ */
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { Listbox, Transition } from "@headlessui/react";
 import { CheckIcon, SelectorIcon } from "@heroicons/react/solid";
 
@@ -7,8 +7,35 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
-export default function SelectMenu({ label, selections, className }) {
+export default function SelectMenu({ label, selections, className, selectedValue, onSelect }) {
   const [selected, setSelected] = useState(selections[0]);
+
+  useEffect(() => {
+    if (selectedValue === null) {
+      return false;
+    }
+
+    const _selectedValue = selections.find((selection) => {
+      return selection.name === selectedValue;
+    });
+
+    setSelected(_selectedValue);
+  }, []);
+
+  useEffect(() => {
+    if (selected.name === selections[0].name) {
+      onSelect(null);
+      return false;
+    }
+
+    onSelect(selected.name);
+  }, [selected]);
+
+  useEffect(() => {
+    if (selectedValue === null) {
+      setSelected(selections[0]);
+    }
+  }, [selectedValue]);
 
   return (
     <Listbox value={selected} onChange={setSelected}>
@@ -28,10 +55,7 @@ export default function SelectMenu({ label, selections, className }) {
             >
               <span className="block truncate">{selected.name}</span>
               <span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
-                <SelectorIcon
-                  className="h-5 w-5 text-gray-400"
-                  aria-hidden="true"
-                />
+                <SelectorIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
               </span>
             </Listbox.Button>
 

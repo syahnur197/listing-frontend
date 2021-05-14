@@ -33,7 +33,9 @@ export default function ItemsList() {
           </li>
         ))}
       </ul>
-      <Button buttonStyle="primary">Next Page</Button>
+      <Button buttonStyle="primary" className="mt-4 mb-4 md:mt-8 ">
+        Next Page
+      </Button>
     </>
   );
 }

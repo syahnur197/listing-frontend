@@ -14,6 +14,26 @@ export async function useGetCars(page = 1) {
   }
 }
 
+export async function useGetFilteredCar(properties, page = 1) {
+  const url = `/cars/filter`;
+
+  const { axios } = getAxios();
+
+  try {
+    const results = (
+      await axios.post(url, {
+        page,
+        properties,
+      })
+    ).data;
+
+    return results;
+  } catch (error) {
+    console.error(error);
+    return false;
+  }
+}
+
 export async function useGetCarById(car_id) {
   const url = `/cars/${car_id}`;
   const { axios } = getAxios();
