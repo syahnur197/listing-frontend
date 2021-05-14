@@ -25,7 +25,9 @@ function MyApp({ Component, pageProps }) {
       </Head>
       {!isAuthPage && <Header />}
       <div
-        className={isAuthPage && "h-screen bg-white flex flex-col flex-grow-0"}
+        className={
+          isAuthPage ? "h-screen bg-white flex flex-col flex-grow-0" : undefined
+        }
       >
         <div className="bg-white font-sans flex-grow">
           <Component {...pageProps} />

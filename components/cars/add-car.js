@@ -4,6 +4,7 @@ import SelectMenu from "../shared/select-menu";
 
 export default function AddCar() {
   const currentYear = new Date().getFullYear();
+
   const [_car, _setCar] = useState({
     brand: null,
     body_type: null,
@@ -15,6 +16,7 @@ export default function AddCar() {
     colour: null,
     sellers_note: null,
   });
+
   return (
     <form className="space-y-4 ">
       <div className="pt-8 space-y-6 sm:pt-10 sm:space-y-2">

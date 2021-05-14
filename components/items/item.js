@@ -25,11 +25,11 @@ export default function Item({ item }) {
             <p className="font-normal text-xs text-gray-500">
               {dayjs(item.created_at).fromNow()}
             </p>
-            <div className="flex space-x-1 py-2">
+            {/* <div className="flex space-x-1 py-2">
               {item.tags.map((tag, index) => (
                 <Badge key={index}>{tag}</Badge>
               ))}
-            </div>
+            </div> */}
           </div>
           <div className="col-span-1 flex flex-col justify-center items-center text-gray-800 -mt-12">
             <p className="text-base md:text-2xl">

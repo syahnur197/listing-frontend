@@ -2,11 +2,10 @@ import { faWhatsapp } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState } from "react";
 import ItemsBanner from "../../components/items/items-banner";
-import Badge from "../../components/shared/badge";
 import Container from "../../components/shared/container";
 import { items } from "../../dummy-data/items";
-import { useRouter } from "next/router";
 import { Modal } from "../../components/shared/modals";
+import useSendWhatsAppMessage from "../../hooks/states/useSendWhatsAppMessage";
 
 function SellerInformation({ item, setModalShown, inquiry, setInquiry }) {
   return (
@@ -92,19 +91,6 @@ function ItemInformation({ item }) {
                 {item?.description}
               </dd>
             </div>
-            <div className="hidden py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-              <dt className="text-sm font-medium text-gray-500">Tags</dt>
-              <dd className="flex flex-row space-x-2">
-                {item?.tags.map((tag, index) => (
-                  <Badge key={index}>{tag}</Badge>
-                ))}
-              </dd>
-            </div>
-            <div className="flex space-x-1 md:hidden">
-              {item?.tags.map((tag, index) => (
-                <Badge key={index}>{tag}</Badge>
-              ))}
-            </div>
           </dl>
         </div>
       </div>
@@ -115,28 +101,17 @@ function ItemInformation({ item }) {
 export default function ItemPage({ item }) {
   const [modalShown, setModalShown] = useState(false);
 
-  const router = useRouter();
+  const inquiry = `I would like to inquiry about ${item?.name}`;
 
-  const [_inquiry, _setInquiry] = useState(
-    `I would like to inquire about ${item?.name}`
-  );
-
-  const sendWhatsappMessage = () => {
-    const api_url = "https://api.whatsapp.com/send/";
-    const phone = item?.user?.mobile_number;
-    const text = encodeURIComponent(_inquiry);
-
-    const button_url = `${api_url}?phone=${phone}&text=${text}`;
-
-    router.push(button_url);
-  };
+  const [_inquiry, _setInquiry, sendWhatsappMessage] =
+    useSendWhatsAppMessage(inquiry);
 
   return (
     <>
       <Modal
         title="Send Inquiry"
         message="Are you sure you want to send the inquiry? You will be redirected to different website"
-        handleClick={sendWhatsappMessage}
+        handleClick={() => sendWhatsappMessage(item?.user?.mobile_number)}
         modalShown={modalShown}
         setModalShown={setModalShown}
         okButtonText={"Okay"}
