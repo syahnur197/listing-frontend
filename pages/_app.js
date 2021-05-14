@@ -9,7 +9,7 @@ import NProgress from "nprogress";
 import "nprogress/nprogress.css";
 import "tailwindcss/tailwind.css";
 import { Provider } from "react-redux";
-import { store } from "../store";
+import { store } from "../lib/store";
 import { Modal } from "../components/shared/modals";
 
 Router.events.on("routeChangeStart", () => NProgress.start());

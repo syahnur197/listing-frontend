@@ -1,12 +1,12 @@
 import { faWhatsapp } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import ItemsBanner from "../../components/items/items-banner";
+import CarsBanner from "../../components/cars/cars-banner";
 import Container from "../../components/shared/container";
-import { items } from "../../dummy-data/items";
+import { useGetCarById, useGetCars } from "../../hooks/api/cars";
 import useSendWhatsAppMessage from "../../hooks/states/useSendWhatsAppMessage";
 
-function SellerInformation({ item }) {
-  const inquiry = `I would like to inquiry about ${item?.name}`;
+function SellerInformation({ car }) {
+  const inquiry = `I would like to inquiry about ${car?.name}`;
 
   const [_inquiry, _setInquiry, handleSendWhatsAppMessage] =
     useSendWhatsAppMessage(inquiry);
@@ -24,18 +24,10 @@ function SellerInformation({ item }) {
             <div className="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
               <dt className="text-sm font-medium text-gray-500">Name</dt>
               <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2 capitalize">
-                {item?.user?.username}
+                {car?.user?.username}
               </dd>
             </div>
             {/* The reason why I hid the mobile number is due to security concern, it's better to handle it on the backend */}
-            {/* <div className="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-              <dt className="text-sm font-medium text-gray-500">
-                Phone Number
-              </dt>
-              <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2 capitalize">
-                {item?.user.mobile_number}
-              </dd>
-            </div> */}
             <div className="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
               <dt className="text-sm font-medium text-gray-500">
                 Contact via WhatsApp
@@ -49,7 +41,7 @@ function SellerInformation({ item }) {
                 <button
                   className="mt-2 mb-2 py-1 md:py-2 w-full text-base md:text-lg font-bold transition duration-100 ease-out bg-[#25D366] flex flex-row justify-center items-center"
                   onClick={() =>
-                    handleSendWhatsAppMessage(item?.user?.mobile_number)
+                    handleSendWhatsAppMessage(car?.user?.mobile_number)
                   }
                 >
                   <FontAwesomeIcon
@@ -67,7 +59,7 @@ function SellerInformation({ item }) {
   );
 }
 
-function ItemInformation({ item }) {
+function CarInformation({ car }) {
   return (
     <>
       <div className="bg-white shadow overflow-hidden mb-4 md:px-6 md:py-5">
@@ -79,7 +71,7 @@ function ItemInformation({ item }) {
       <div className="bg-white shadow overflow-hidden">
         <div className="bg-white px-4 py-5 border-t border-b border-gray-200 sm:px-6">
           <h3 className="font-bold text-2xl md:text-3xl text-gray-800 capitalize">
-            {item?.name}
+            {car?.name}
           </h3>
         </div>
         <div className="border-gray-200 px-4 py-5 sm:p-0">
@@ -87,13 +79,13 @@ function ItemInformation({ item }) {
             <div className="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
               <dt className="text-sm font-medium text-gray-500">Price</dt>
               <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                B$ {item?.price}
+                B$ {car?.price}
               </dd>
             </div>
             <div className="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
               <dt className="text-sm font-medium text-gray-500">Description</dt>
               <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                {item?.description}
+                {car?.description}
               </dd>
             </div>
           </dl>
@@ -103,43 +95,43 @@ function ItemInformation({ item }) {
   );
 }
 
-export default function ItemPage({ item }) {
+export default function CarPage({ car }) {
   return (
     <>
-      <ItemsBanner size="small"></ItemsBanner>
+      <CarsBanner size="small"></CarsBanner>
       <Container>
-        <ItemInformation item={item} />
-        <SellerInformation item={item} />
+        <CarInformation car={car} />
+        <SellerInformation car={car} />
       </Container>
     </>
   );
 }
 
 export async function getStaticProps(context) {
-  const { item_id } = context.params;
-  const item = items.find((_item) => _item.id.toString() === item_id);
+  const { car_id } = context.params;
+  const { car } = await useGetCarById(car_id);
 
-  if (!item) {
+  if (!car) {
     return {
-      props: { item },
+      props: { car },
       notFound: true,
     };
   }
 
   return {
-    props: { item },
+    props: { car },
     revalidate: 30,
   };
 }
 
 export async function getStaticPaths() {
-  const paths = items.map((item) => {
+  const { cars } = await useGetCars(-1);
+
+  const paths = cars.map((car) => {
     return {
-      params: {
-        item_id: item?.id.toString(),
-      },
+      params: { car_id: car.id.toString() },
     };
   });
 
-  return { paths, fallback: true };
+  return { paths, fallback: "blocking" };
 }

@@ -43,12 +43,13 @@ export const bodyTypes = [
 export const fuelTypes = [
   { id: 0, name: "Select Fuel Type" },
   { id: 1, name: "Diesel" },
-  { id: 2, name: "Electric" },
-  { id: 3, name: "Ethanol" },
-  { id: 4, name: "Fuel" },
-  { id: 5, name: "Gasoline" },
-  { id: 6, name: "Hybrid" },
-  { id: 7, name: "LPG Autogas" },
+  { id: 2, name: "Petrol" },
+  // { id: 2, name: "Electric" },
+  // { id: 3, name: "Ethanol" },
+  // { id: 4, name: "Fuel" },
+  // { id: 5, name: "Gasoline" },
+  // { id: 6, name: "Hybrid" },
+  // { id: 7, name: "LPG Autogas" },
 ];
 
 export const transmissions = [
@@ -64,4 +65,9 @@ export const driveTypes = [
   { id: 2, name: "AWD" },
   { id: 3, name: "FWD" },
   { id: 4, name: "RWD" },
+];
+
+export const paymentTerms = [
+  { id: 0, name: "Cash" },
+  { id: 1, name: "Monthly" },
 ];

@@ -5,7 +5,7 @@ import {
   cleanupModalAsync,
   selectModal,
   closeModal,
-} from "../../reducers/modal-slice";
+} from "../../lib/reducers/modal-slice";
 import { useDispatch, useSelector } from "react-redux";
 
 export function Modal() {

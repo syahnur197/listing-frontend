@@ -1,8 +1,15 @@
 import { useState } from "react";
 import { bodyTypes, brands, driveTypes, fuelTypes } from "../../dummy-data/car";
 import SelectMenu from "../shared/select-menu";
+import { useRouter } from "next/router";
 
 export default function AddCar() {
+  const router = useRouter();
+
+  const handleClickCancel = () => {
+    router.back();
+  };
+
   const currentYear = new Date().getFullYear();
 
   const [_car, _setCar] = useState({
@@ -14,7 +21,7 @@ export default function AddCar() {
     mileage: null,
     price: null,
     colour: null,
-    sellers_note: null,
+    description: null,
   });
 
   return (
@@ -225,22 +232,22 @@ export default function AddCar() {
 
           <div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:pt-5">
             <label
-              htmlFor="sellers_note"
+              htmlFor="description"
               className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
             >
               Seller's Note
             </label>
             <div className="mt-1 sm:mt-0 sm:col-span-2">
               <textarea
-                name="sellers_note"
-                id="sellers_note"
+                name="description"
+                id="description"
                 className="resize-none max-w-xl block w-full shadow-sm focus:ring-primary-500 focus:border-primary-500 sm:text-sm border-gray-300"
                 rows="10"
-                value={_car.sellers_note}
+                value={_car.description}
                 onChange={(event) => {
                   _setCar({
                     ..._car,
-                    sellers_note: event.target.value,
+                    description: event.target.value,
                   });
                 }}
               ></textarea>
@@ -252,6 +259,7 @@ export default function AddCar() {
       <div className="pt-5">
         <div className="flex justify-end">
           <button
+            onClick={handleClickCancel}
             type="button"
             className="bg-white py-2 px-4 border border-gray-300 shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500"
           >
