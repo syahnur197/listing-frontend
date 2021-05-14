@@ -1,13 +1,32 @@
 import { faWhatsapp } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useState } from "react";
 import ItemsBanner from "../../components/items/items-banner";
 import Container from "../../components/shared/container";
 import { items } from "../../dummy-data/items";
-import { Modal } from "../../components/shared/modals";
 import useSendWhatsAppMessage from "../../hooks/states/useSendWhatsAppMessage";
+import { useDispatch } from "react-redux";
+import { openModal } from "../../reducers/modal-slice";
 
-function SellerInformation({ item, setModalShown, inquiry, setInquiry }) {
+function SellerInformation({ item }) {
+  const inquiry = `I would like to inquiry about ${item?.name}`;
+
+  const dispatch = useDispatch();
+
+  const [_inquiry, _setInquiry, sendWhatsappMessage] =
+    useSendWhatsAppMessage(inquiry);
+
+  const handleOpenModal = () => {
+    dispatch(
+      openModal({
+        title: "Send Inquiry",
+        message:
+          "Are you sure you want to send the inquiry? You will be redirected to different website",
+        handleClick: () => sendWhatsappMessage(item?.user?.mobile_number),
+        okButtonText: "Okay",
+      })
+    );
+  };
+
   return (
     <>
       <div className="bg-white shadow overflow-hidden mt-8">
@@ -40,12 +59,12 @@ function SellerInformation({ item, setModalShown, inquiry, setInquiry }) {
               <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2 capitalize">
                 <textarea
                   className="w-full text-gray-700 text-sm border-gray-200"
-                  value={inquiry}
-                  onChange={(event) => setInquiry(event.target.value)}
+                  value={_inquiry}
+                  onChange={(event) => _setInquiry(event.target.value)}
                 ></textarea>
                 <button
                   className="mt-2 mb-2 py-1 md:py-2 w-full text-base md:text-lg font-bold transition duration-100 ease-out bg-[#25D366] flex flex-row justify-center items-center"
-                  onClick={() => setModalShown(true)}
+                  onClick={handleOpenModal}
                 >
                   <FontAwesomeIcon
                     icon={faWhatsapp}
@@ -99,32 +118,12 @@ function ItemInformation({ item }) {
 }
 
 export default function ItemPage({ item }) {
-  const [modalShown, setModalShown] = useState(false);
-
-  const inquiry = `I would like to inquiry about ${item?.name}`;
-
-  const [_inquiry, _setInquiry, sendWhatsappMessage] =
-    useSendWhatsAppMessage(inquiry);
-
   return (
     <>
-      <Modal
-        title="Send Inquiry"
-        message="Are you sure you want to send the inquiry? You will be redirected to different website"
-        handleClick={() => sendWhatsappMessage(item?.user?.mobile_number)}
-        modalShown={modalShown}
-        setModalShown={setModalShown}
-        okButtonText={"Okay"}
-      />
       <ItemsBanner size="small"></ItemsBanner>
       <Container>
         <ItemInformation item={item} />
-        <SellerInformation
-          item={item}
-          setModalShown={setModalShown}
-          inquiry={_inquiry}
-          setInquiry={_setInquiry}
-        />
+        <SellerInformation item={item} />
       </Container>
     </>
   );
