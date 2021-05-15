@@ -16,13 +16,9 @@ export default function Login({ error }) {
   useEffect(() => {
     if (error) setShowError(true);
 
-    const interval = setInterval(() => {
+    setTimeout(() => {
       setShowError(false);
     }, 3000);
-
-    return () => {
-      clearInterval(interval);
-    };
   }, []);
 
   if (error) {
@@ -149,7 +145,7 @@ export async function getServerSideProps({ req, res, query }) {
     };
   }
 
-  const { error } = query;
+  const error = query?.error || null;
 
   return {
     props: {

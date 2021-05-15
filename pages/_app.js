@@ -12,6 +12,7 @@ import { Provider } from "react-redux";
 import { store } from "../lib/store";
 import { Modal } from "../components/shared/modals";
 import { Provider as NextAuthProvider } from "next-auth/client";
+import Notification from "../components/shared/notification";
 
 Router.events.on("routeChangeStart", () => NProgress.start());
 Router.events.on("routeChangeComplete", () => NProgress.done());
@@ -38,6 +39,7 @@ function MyApp({ Component, pageProps }) {
             <Footer />
           </div>
         </div>
+        <Notification />
       </NextAuthProvider>
     </Provider>
   );

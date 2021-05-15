@@ -3,8 +3,8 @@ import Link from "next/link";
 import Logo from "./logo";
 
 const navigation = [
-  { name: "Items", href: "/" },
-  { name: "Cars", href: "/cars" },
+  { name: "Cars", href: "/" },
+  // { name: "Items", href: "/" },
   // { name: "Jobs", href: "#" },
 ];
 

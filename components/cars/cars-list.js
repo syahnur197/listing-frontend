@@ -1,8 +1,11 @@
 import Link from "next/link";
-import { Button } from "../shared/buttons";
+import { useSelector } from "react-redux";
+import { selectCars } from "../../lib/reducers/cars-result-slice";
 import Car from "./car";
 
-export default function CarsList({ cars }) {
+export default function CarsList() {
+  const { cars } = useSelector(selectCars);
+
   return (
     <>
       <ul className="space-y-4">

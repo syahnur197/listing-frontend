@@ -9,7 +9,7 @@ function classNames(...classes) {
 }
 
 export default function SelectMenu({
-  label,
+  label = null,
   selections,
   className,
   selectedValue,
@@ -33,13 +33,12 @@ export default function SelectMenu({
   // every time the selected value (in select menu) changes,
   // update the selected state value in redux
   useDidMountEffect(() => {
-    console.log(selections[0].name === selected.name);
-    if (selected.name === selections[0].name) {
+    if (selected?.name === selections[0].name) {
       onSelectedValue(null);
       return false;
     }
 
-    onSelectedValue(selected.name);
+    onSelectedValue(selected?.name);
   }, [selected]);
 
   // if the selected value changed to null, set selected to the first element, i.e., please select...
@@ -53,7 +52,7 @@ export default function SelectMenu({
   return (
     <Listbox value={selected} onChange={setSelected}>
       {({ open }) => (
-        <div className="mb-6">
+        <div className="">
           {label && (
             <Listbox.Label className="block text-lg font-semibold text-gray-700">
               {label}
@@ -66,7 +65,7 @@ export default function SelectMenu({
                 " bg-white relative w-full border border-gray-300 shadow-sm pl-3 pr-10 py-2 text-left cursor-default focus:outline-none focus:ring-1 focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
               }
             >
-              <span className="block truncate">{selected.name}</span>
+              <span className="block truncate">{selected?.name}</span>
               <span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
                 <SelectorIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
               </span>

@@ -8,19 +8,21 @@ export const brands = [
   { id: 6, name: "Honda" },
   { id: 7, name: "Hyundai" },
   { id: 8, name: "Isuzu" },
-  { id: 9, name: "Kia" },
-  { id: 10, name: "Lexus" },
-  { id: 11, name: "MG" },
-  { id: 12, name: "Mazda" },
-  { id: 13, name: "Mercedez" },
-  { id: 14, name: "Mini" },
-  { id: 15, name: "Mitsubishi" },
-  { id: 16, name: "Nissan" },
-  { id: 17, name: "Peugeot" },
-  { id: 18, name: "Subaru" },
-  { id: 19, name: "Suzuki" },
-  { id: 20, name: "Tesla" },
-  { id: 21, name: "Toyota" },
+  { id: 9, name: "Jaguar" },
+  { id: 10, name: "Kia" },
+  { id: 11, name: "Lexus" },
+  { id: 12, name: "MG" },
+  { id: 13, name: "Mazda" },
+  { id: 14, name: "Mercedez" },
+  { id: 15, name: "Mini" },
+  { id: 16, name: "Mitsubishi" },
+  { id: 17, name: "Nissan" },
+  { id: 18, name: "Peugeot" },
+  { id: 19, name: "Porshe" },
+  { id: 20, name: "Subaru" },
+  { id: 21, name: "Suzuki" },
+  { id: 22, name: "Tesla" },
+  { id: 23, name: "Toyota" },
 ];
 
 export const bodyTypes = [
@@ -68,6 +70,7 @@ export const driveTypes = [
 ];
 
 export const paymentTerms = [
-  { id: 0, name: "Cash" },
-  { id: 1, name: "Monthly" },
+  { id: 0, name: "Select Payment Term" },
+  { id: 1, name: "Cash" },
+  { id: 2, name: "Monthly" },
 ];
