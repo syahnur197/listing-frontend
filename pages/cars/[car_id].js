@@ -2,7 +2,7 @@ import { faWhatsapp } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import CarsBanner from "../../components/cars/cars-banner";
 import Container from "../../components/shared/container";
-import { useGetCarById } from "../../hooks/api/cars";
+import { useGetCarById, useGetCars } from "../../hooks/api/cars";
 import useSendWhatsAppMessage from "../../hooks/states/useSendWhatsAppMessage";
 import { dayjs, formatThousand } from "../../lib/utils";
 
@@ -130,7 +130,7 @@ export default function CarPage({ car }) {
   );
 }
 
-export async function getServerSideProps(context) {
+export async function getStaticProps(context) {
   const { car_id } = context.params;
   const { car } = await useGetCarById(car_id);
 
@@ -143,18 +143,18 @@ export async function getServerSideProps(context) {
 
   return {
     props: { car },
-    // revalidate: 30,
+    revalidate: 30,
   };
 }
 
-// export async function getStaticPaths() {
-//   const { cars } = await useGetCars(-1);
+export async function getStaticPaths() {
+  const { cars } = await useGetCars(-1);
 
-//   const paths = cars.map((car) => {
-//     return {
-//       params: { car_id: car.id.toString() },
-//     };
-//   });
+  const paths = cars.map((car) => {
+    return {
+      params: { car_id: car.id.toString() },
+    };
+  });
 
-//   return { paths, fallback: "blocking" };
-// }
+  return { paths, fallback: "blocking" };
+}
