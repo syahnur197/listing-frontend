@@ -1,3 +1,4 @@
+import { useSession } from "next-auth/client";
 import Link from "next/link";
 import Logo from "./logo";
 
@@ -8,6 +9,8 @@ const navigation = [
 ];
 
 export default function Header() {
+  const [session, loading] = useSession();
+
   return (
     <header className="">
       <nav className="max-w-7xl mx-auto sm:px-6 lg:px-8 " aria-label="Top">
@@ -29,16 +32,30 @@ export default function Header() {
             </div>
           </div>
           <div className="ml-10 space-x-1 ">
-            <Link href="/auth/login">
-              <a className="inline-block bg-primary-500 py-1 px-2 border border-transparent text-base font-medium text-white hover:bg-opacity-75">
-                Log in
-              </a>
-            </Link>
-            <Link href="/auth/register">
-              <a className="inline-block bg-white py-2 px-2 border border-transparent text-base font-medium text-primary-600 hover:bg-primary-50">
-                Register
-              </a>
-            </Link>
+            {!session && (
+              <>
+                <Link href="/auth/login">
+                  <a className="inline-block bg-primary-500 py-1 px-2 border border-transparent text-base font-medium text-white hover:bg-opacity-75">
+                    Log in
+                  </a>
+                </Link>
+                <Link href="/auth/register">
+                  <a className="inline-block bg-white py-2 px-2 border border-transparent text-base font-medium text-primary-600 hover:bg-primary-50">
+                    Register
+                  </a>
+                </Link>
+              </>
+            )}
+
+            {session && (
+              <>
+                <Link href="/api/auth/signout">
+                  <a className="inline-block bg-white py-2 px-2 border border-transparent text-base font-medium text-primary-600 hover:bg-primary-50">
+                    Log Out
+                  </a>
+                </Link>
+              </>
+            )}
           </div>
         </div>
         <div className="py-2 flex flex-wrap justify-center space-x-6 lg:hidden bg-primary-600">

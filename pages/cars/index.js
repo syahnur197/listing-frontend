@@ -18,10 +18,14 @@ import {
   resetFilterAsync,
 } from "../../lib/reducers/filter-car-slice";
 import { useDispatch, useSelector } from "react-redux";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function Cars({ results }) {
-  const [_results, _setResults] = useState(results);
+  const [_results, _setResults] = useState(0);
+
+  useEffect(() => {
+    _setResults(results);
+  });
 
   const filterCar = useSelector(getFilterCarState);
 
@@ -44,31 +48,31 @@ export default function Cars({ results }) {
               label="Brand"
               selections={brands}
               selectedValue={filterCar.brand}
-              onSelect={(selectedValue) => dispatch(setBrand(selectedValue))}
+              onSelectedValue={(selectedValue) => dispatch(setBrand(selectedValue))}
             />
             <SelectMenu
               label="Body Type"
               selections={bodyTypes}
               selectedValue={filterCar.bodyType}
-              onSelect={(selectedValue) => dispatch(setBodyType(selectedValue))}
+              onSelectedValue={(selectedValue) => dispatch(setBodyType(selectedValue))}
             />
             <SelectMenu
               label="Fuel Type"
               selections={fuelTypes}
               selectedValue={filterCar.fuelType}
-              onSelect={(selectedValue) => dispatch(setFuelType(selectedValue))}
+              onSelectedValue={(selectedValue) => dispatch(setFuelType(selectedValue))}
             />
             <SelectMenu
               label="Transmission"
               selections={transmissions}
               selectedValue={filterCar.transmission}
-              onSelect={(selectedValue) => dispatch(setTransmission(selectedValue))}
+              onSelectedValue={(selectedValue) => dispatch(setTransmission(selectedValue))}
             />
             <SelectMenu
               label="Drive Type"
               selections={driveTypes}
               selectedValue={filterCar.driveType}
-              onSelect={(selectedValue) => dispatch(setDriveType(selectedValue))}
+              onSelectedValue={(selectedValue) => dispatch(setDriveType(selectedValue))}
             />
 
             <Button buttonStyle="primary" onClick={getFilteredCars}>
@@ -104,13 +108,30 @@ export default function Cars({ results }) {
 
           <CarsList cars={_results?.cars} />
 
-          <Link href={`/cars?page=${_results?.pagination.next_page}`}>
-            <a>
-              <Button buttonStyle="primary" className="mt-4 mb-4 md:mt-8 ">
-                Next Page
-              </Button>
-            </a>
-          </Link>
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              {_results?.pagination?.previous_page && (
+                <Link href={`/cars?page=${_results?.pagination?.previous_page}`}>
+                  <a>
+                    <Button buttonStyle="primary" className="mt-4 mb-4 md:mt-8 ">
+                      Previous Page
+                    </Button>
+                  </a>
+                </Link>
+              )}
+            </div>
+            <div>
+              {_results?.pagination?.next_page && (
+                <Link href={`/cars?page=${_results?.pagination?.next_page}`}>
+                  <a>
+                    <Button buttonStyle="primary" className="mt-4 mb-4 md:mt-8 ">
+                      Next Page
+                    </Button>
+                  </a>
+                </Link>
+              )}
+            </div>
+          </div>
         </div>
         <div className="hidden md:block lg:col-span-3"></div>
       </GridContainer>
@@ -120,6 +141,9 @@ export default function Cars({ results }) {
 
 export async function getServerSideProps(context) {
   const { page } = context.query;
+
+  console.log(page);
+
   const results = await useGetCars(page);
 
   return {

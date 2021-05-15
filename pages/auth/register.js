@@ -1,3 +1,4 @@
+import { getSession } from "next-auth/client";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import Logo from "../../components/shared/logo";
@@ -120,4 +121,19 @@ export default function Register() {
       </div>
     </div>
   );
+}
+
+export async function getServerSideProps({ req, res }) {
+  const session = await getSession({ req });
+
+  if (session) {
+    return {
+      redirect: {
+        destination: "/",
+        permanent: false,
+      },
+    };
+  }
+
+  return { props: {} };
 }

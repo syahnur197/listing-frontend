@@ -2,14 +2,22 @@
 import { Fragment, useEffect, useState } from "react";
 import { Listbox, Transition } from "@headlessui/react";
 import { CheckIcon, SelectorIcon } from "@heroicons/react/solid";
+import useDidMountEffect from "../../hooks/useDidMountEffect";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
-export default function SelectMenu({ label, selections, className, selectedValue, onSelect }) {
+export default function SelectMenu({
+  label,
+  selections,
+  className,
+  selectedValue,
+  onSelectedValue,
+}) {
   const [selected, setSelected] = useState(selections[0]);
 
+  // set the selected based on the value in redux on mount
   useEffect(() => {
     if (selectedValue === null) {
       return false;
@@ -22,15 +30,20 @@ export default function SelectMenu({ label, selections, className, selectedValue
     setSelected(_selectedValue);
   }, []);
 
-  useEffect(() => {
+  // every time the selected value (in select menu) changes,
+  // update the selected state value in redux
+  useDidMountEffect(() => {
+    console.log(selections[0].name === selected.name);
     if (selected.name === selections[0].name) {
-      onSelect(null);
+      onSelectedValue(null);
       return false;
     }
 
-    onSelect(selected.name);
+    onSelectedValue(selected.name);
   }, [selected]);
 
+  // if the selected value changed to null, set selected to the first element, i.e., please select...
+  // it is used for the reset filter function
   useEffect(() => {
     if (selectedValue === null) {
       setSelected(selections[0]);

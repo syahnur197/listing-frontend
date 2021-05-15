@@ -1,14 +1,37 @@
+import { Transition } from "@headlessui/react";
 import { LockClosedIcon } from "@heroicons/react/solid";
+import { getSession, signIn } from "next-auth/client";
 import Link from "next/link";
-import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 import Logo from "../../components/shared/logo";
 
-export default function Login() {
-  const router = useRouter();
+export default function Login({ error }) {
+  const [credential, setCredential] = useState({
+    email: "",
+    password: "",
+  });
+
+  const [showError, setShowError] = useState(false);
+
+  useEffect(() => {
+    if (error) setShowError(true);
+
+    const interval = setInterval(() => {
+      setShowError(false);
+    }, 3000);
+
+    return () => {
+      clearInterval(interval);
+    };
+  }, []);
+
+  if (error) {
+  }
 
   const handleLogin = (event) => {
     event.preventDefault();
-    router.push("/");
+
+    signIn("backend_api", credential);
   };
 
   return (
@@ -25,6 +48,19 @@ export default function Login() {
           <input type="hidden" name="remember" defaultValue="true" />
           <div className="rounded-md shadow-sm space-y-2">
             <div>
+              <Transition
+                show={showError}
+                enter="transition-opacity duration-75"
+                enterFrom="opacity-0"
+                enterTo="opacity-100"
+                leave="transition-opacity duration-300"
+                leaveFrom="opacity-100"
+                leaveTo="opacity-0"
+              >
+                <span className="block bg-red-200 text-red-500 py-2 px-2 w-full mb-2 text-center">
+                  Invalid Credential
+                </span>
+              </Transition>
               <label htmlFor="email-address" className="sr-only">
                 Email address
               </label>
@@ -33,6 +69,8 @@ export default function Login() {
                 name="email"
                 type="email"
                 autoComplete="email"
+                value={credential.email}
+                onChange={(event) => setCredential({ ...credential, email: event.target.value })}
                 required
                 className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-primary-500 focus:border-primary-500 focus:z-10 sm:text-sm"
                 placeholder="Email address"
@@ -47,6 +85,8 @@ export default function Login() {
                 name="password"
                 type="password"
                 autoComplete="current-password"
+                value={credential.password}
+                onChange={(event) => setCredential({ ...credential, password: event.target.value })}
                 required
                 className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-primary-500 focus:border-primary-500 focus:z-10 sm:text-sm"
                 placeholder="Password"
@@ -62,10 +102,7 @@ export default function Login() {
                 type="checkbox"
                 className="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300 rounded"
               />
-              <label
-                htmlFor="remember_me"
-                className="ml-2 block text-sm text-gray-900"
-              >
+              <label htmlFor="remember_me" className="ml-2 block text-sm text-gray-900">
                 Remember me
               </label>
             </div>
@@ -91,13 +128,32 @@ export default function Login() {
               Log In
             </button>
             <Link href="/auth/register">
-              <a className="text-sm text-primary-600 hover:text-primary-500">
-                Create an account
-              </a>
+              <a className="text-sm text-primary-600 hover:text-primary-500">Create an account</a>
             </Link>
           </div>
         </form>
       </div>
     </div>
   );
+}
+
+export async function getServerSideProps({ req, res, query }) {
+  const session = await getSession({ req });
+
+  if (session) {
+    return {
+      redirect: {
+        destination: "/",
+        permanent: false,
+      },
+    };
+  }
+
+  const { error } = query;
+
+  return {
+    props: {
+      error,
+    },
+  };
 }

@@ -8,16 +8,13 @@ import useSendWhatsAppMessage from "../../hooks/states/useSendWhatsAppMessage";
 function SellerInformation({ car }) {
   const inquiry = `I would like to inquiry about ${car?.name}`;
 
-  const [_inquiry, _setInquiry, handleSendWhatsAppMessage] =
-    useSendWhatsAppMessage(inquiry);
+  const [_inquiry, _setInquiry, handleSendWhatsAppMessage] = useSendWhatsAppMessage(inquiry);
 
   return (
     <>
       <div className="bg-white shadow overflow-hidden mt-8">
         <div className="bg-white px-4 py-2 border-t border-b border-gray-200 sm:px-6">
-          <h3 className="font-semibold text-lg text-gray-800">
-            Seller's Information
-          </h3>
+          <h3 className="font-semibold text-lg text-gray-800">Seller's Information</h3>
         </div>
         <div className="border-gray-200 px-4 py-5 sm:p-0">
           <dl className="sm:divide-y sm:divide-gray-200">
@@ -29,9 +26,7 @@ function SellerInformation({ car }) {
             </div>
             {/* The reason why I hid the mobile number is due to security concern, it's better to handle it on the backend */}
             <div className="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-              <dt className="text-sm font-medium text-gray-500">
-                Contact via WhatsApp
-              </dt>
+              <dt className="text-sm font-medium text-gray-500">Contact via WhatsApp</dt>
               <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2 capitalize">
                 <textarea
                   className="w-full text-gray-700 text-sm border-gray-200"
@@ -40,9 +35,7 @@ function SellerInformation({ car }) {
                 ></textarea>
                 <button
                   className="mt-2 mb-2 py-1 md:py-2 w-full text-base md:text-lg font-bold transition duration-100 ease-out bg-[#25D366] flex flex-row justify-center items-center"
-                  onClick={() =>
-                    handleSendWhatsAppMessage(car?.user?.mobile_number)
-                  }
+                  onClick={() => handleSendWhatsAppMessage(car?.user?.mobile_number)}
                 >
                   <FontAwesomeIcon
                     icon={faWhatsapp}
@@ -70,17 +63,13 @@ function CarInformation({ car }) {
 
       <div className="bg-white shadow overflow-hidden">
         <div className="bg-white px-4 py-5 border-t border-b border-gray-200 sm:px-6">
-          <h3 className="font-bold text-2xl md:text-3xl text-gray-800 capitalize">
-            {car?.name}
-          </h3>
+          <h3 className="font-bold text-2xl md:text-3xl text-gray-800 capitalize">{car?.name}</h3>
         </div>
         <div className="border-gray-200 px-4 py-5 sm:p-0">
           <dl className="sm:divide-y sm:divide-gray-200">
             <div className="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
               <dt className="text-sm font-medium text-gray-500">Price</dt>
-              <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                B$ {car?.price}
-              </dd>
+              <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">B$ {car?.price}</dd>
             </div>
             <div className="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
               <dt className="text-sm font-medium text-gray-500">Description</dt>

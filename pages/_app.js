@@ -11,6 +11,7 @@ import "tailwindcss/tailwind.css";
 import { Provider } from "react-redux";
 import { store } from "../lib/store";
 import { Modal } from "../components/shared/modals";
+import { Provider as NextAuthProvider } from "next-auth/client";
 
 Router.events.on("routeChangeStart", () => NProgress.start());
 Router.events.on("routeChangeComplete", () => NProgress.done());
@@ -23,25 +24,21 @@ function MyApp({ Component, pageProps }) {
 
   return (
     <Provider store={store}>
-      <div>
-        <Head>
-          <title>BruListing</title>
-        </Head>
-        {!isAuthPage && <Header />}
-        <div
-          className={
-            isAuthPage
-              ? "h-screen bg-white flex flex-col flex-grow-0"
-              : undefined
-          }
-        >
-          <div className="bg-white font-sans flex-grow">
-            <Component {...pageProps} />
-            <Modal />
+      <NextAuthProvider session={pageProps.session}>
+        <div>
+          <Head>
+            <title>BruListing</title>
+          </Head>
+          {!isAuthPage && <Header />}
+          <div className={isAuthPage ? "h-screen bg-white flex flex-col flex-grow-0" : undefined}>
+            <div className="bg-white font-sans flex-grow">
+              <Component {...pageProps} />
+              <Modal />
+            </div>
+            <Footer />
           </div>
-          <Footer />
         </div>
-      </div>
+      </NextAuthProvider>
     </Provider>
   );
 }
