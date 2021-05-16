@@ -1,18 +1,25 @@
-import { getAxios } from "../../lib/utils/get-axios";
 import { getSession } from "next-auth/client";
+import useSWR from "swr";
+import { getFetcher } from "../../lib/get-fetcher";
+import { BACKEND_URL } from "../../lib/utils/config";
+import { getAxios } from "../../lib/utils/get-axios";
 
-export async function useGetCars(page = 1) {
+export async function getCars(page = 1) {
   const url = `/cars?page=${page}`;
   const { axios } = getAxios();
 
-  try {
-    const results = (await axios.get(url)).data;
+  const results = (await axios.get(url)).data;
+  return results;
+}
 
-    return results;
-  } catch (error) {
-    console.error(error);
-    return false;
-  }
+export function useGetCars(page = 1) {
+  const url = `${BACKEND_URL}/cars?page=${page}`;
+
+  const fetcher = getFetcher();
+
+  const { data, error, isValidating } = useSWR(url, fetcher);
+
+  return { data, error, isValidating };
 }
 
 export async function useGetFilteredCar(properties, page = 1) {
@@ -35,7 +42,7 @@ export async function useGetFilteredCar(properties, page = 1) {
   }
 }
 
-export async function useGetCarById(car_id) {
+export async function getCarById(car_id) {
   const url = `/cars/${car_id}`;
   const { axios } = getAxios();
 

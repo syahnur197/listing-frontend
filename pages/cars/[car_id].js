@@ -2,7 +2,7 @@ import { faWhatsapp } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import CarsBanner from "../../components/cars/cars-banner";
 import Container from "../../components/shared/container";
-import { useGetCarById, useGetCars } from "../../hooks/api/cars";
+import { getCars, getCarById, useGetCars } from "../../hooks/api/cars";
 import useSendWhatsAppMessage from "../../hooks/states/useSendWhatsAppMessage";
 import { dayjs, formatThousand } from "../../lib/utils";
 
@@ -132,7 +132,7 @@ export default function CarPage({ car }) {
 
 export async function getStaticProps(context) {
   const { car_id } = context.params;
-  const { car } = await useGetCarById(car_id);
+  const { car } = await getCarById(car_id);
 
   if (!car) {
     return {
@@ -148,7 +148,7 @@ export async function getStaticProps(context) {
 }
 
 export async function getStaticPaths() {
-  const { cars } = await useGetCars(-1);
+  const { cars } = await getCars(-1);
 
   const paths = cars.map((car) => {
     return {

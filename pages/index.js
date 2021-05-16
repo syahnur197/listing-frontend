@@ -1,7 +1,10 @@
 import { PlusIcon } from "@heroicons/react/solid";
+import axios from "axios";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import useSWR from "swr";
 import CarsBanner from "../components/cars/cars-banner";
 import CarsList from "../components/cars/cars-list";
 import { Button } from "../components/shared/buttons";
@@ -11,7 +14,13 @@ import SelectMenu from "../components/shared/select-menu";
 import { bodyTypes, brands, driveTypes, fuelTypes, transmissions } from "../dummy-data/car";
 import { useGetCars, useGetFilteredCar } from "../hooks/api/cars";
 import useDidMountEffect from "../hooks/useDidMountEffect";
-import { selectPagination, setCars, setPagination } from "../lib/reducers/cars-result-slice";
+import { getFetcher } from "../lib/get-fetcher";
+import {
+  selectCars,
+  selectPagination,
+  setCars,
+  setPagination,
+} from "../lib/reducers/cars-result-slice";
 import {
   getFilterCarState,
   getFiltration,
@@ -23,13 +32,20 @@ import {
   setTransmission,
 } from "../lib/reducers/filter-car-slice";
 
-export default function Cars({ results }) {
+export default function Cars() {
+  const router = useRouter();
+  const query = router.query;
+  const { page } = query;
+  const { data, error, isValidating } = useGetCars(page ?? 1);
+
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(setCars(results.cars));
-    dispatch(setPagination(results.pagination));
-  }, [results]);
+    dispatch(setCars(data?.cars));
+    dispatch(setPagination(data?.pagination));
+  }, [data]);
+
+  const { cars } = useSelector(selectCars);
 
   const { pagination } = useSelector(selectPagination);
 
@@ -38,9 +54,9 @@ export default function Cars({ results }) {
   const propertiesToFilter = useSelector(getFiltration);
 
   const getFilteredCars = async () => {
-    const _results = await useGetFilteredCar(propertiesToFilter);
-    dispatch(setCars(_results.cars));
-    dispatch(setPagination(_results.pagination));
+    const filteredResults = await useGetFilteredCar(propertiesToFilter);
+    dispatch(setCars(filteredResults.cars));
+    dispatch(setPagination(filteredResults.pagination));
   };
 
   return (
@@ -127,14 +143,4 @@ export default function Cars({ results }) {
       </GridContainer>
     </>
   );
-}
-
-export async function getServerSideProps(context) {
-  const { page } = context.query;
-
-  const results = await useGetCars(page);
-
-  return {
-    props: { results },
-  };
 }
