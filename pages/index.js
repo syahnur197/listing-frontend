@@ -1,26 +1,18 @@
 import { PlusIcon } from "@heroicons/react/solid";
-import axios from "axios";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import useSWR from "swr";
 import CarsBanner from "../components/cars/cars-banner";
 import CarsList from "../components/cars/cars-list";
 import { Button } from "../components/shared/buttons";
 import GridContainer from "../components/shared/grid-container";
+import NumberRange from "../components/shared/number-range";
 import Pagination from "../components/shared/pagination";
 import SelectMenu from "../components/shared/select-menu";
 import { bodyTypes, brands, driveTypes, fuelTypes, transmissions } from "../dummy-data/car";
 import { useGetCars, useGetFilteredCar } from "../hooks/api/cars";
-import useDidMountEffect from "../hooks/useDidMountEffect";
-import { getFetcher } from "../lib/get-fetcher";
-import {
-  selectCars,
-  selectPagination,
-  setCars,
-  setPagination,
-} from "../lib/reducers/cars-result-slice";
+import { selectPagination, setCars, setPagination } from "../lib/reducers/cars-result-slice";
 import {
   getFilterCarState,
   getFiltration,
@@ -29,6 +21,10 @@ import {
   setBrand,
   setDriveType,
   setFuelType,
+  setMaximumMileage,
+  setMaximumPrice,
+  setMinimumMileage,
+  setMinimumPrice,
   setTransmission,
 } from "../lib/reducers/filter-car-slice";
 
@@ -38,14 +34,14 @@ export default function Cars() {
   const { page } = query;
   const { data, error, isValidating } = useGetCars(page ?? 1);
 
+  const [_showFilter, _setShowFilter] = useState(false);
+
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(setCars(data?.cars));
     dispatch(setPagination(data?.pagination));
   }, [data]);
-
-  const { cars } = useSelector(selectCars);
 
   const { pagination } = useSelector(selectPagination);
 
@@ -54,6 +50,7 @@ export default function Cars() {
   const propertiesToFilter = useSelector(getFiltration);
 
   const getFilteredCars = async () => {
+    _setShowFilter(false);
     const filteredResults = await useGetFilteredCar(propertiesToFilter);
     dispatch(setCars(filteredResults.cars));
     dispatch(setPagination(filteredResults.pagination));
@@ -61,10 +58,26 @@ export default function Cars() {
 
   return (
     <>
-      <CarsBanner>{/* <SearchBar /> */}</CarsBanner>
+      <CarsBanner size="small">{/* <SearchBar /> */}</CarsBanner>
       <GridContainer>
-        <div className="hidden md:block lg:col-span-3 px-4 py-8">
-          <div className="py-4 px-8">
+        <div className="col-span-12 lg:col-span-3 px-4 py-4 md:py-8">
+          <div className="col-span-12 block md:hidden">
+            <button
+              onClick={() => {
+                _setShowFilter(!_showFilter);
+              }}
+              className="py-1 w-full text-sm transition duration-100 ease-out bg-primary-300 text-primary-800 hover:bg-primary-400 hover:text-primary-900"
+            >
+              Toggle Filter
+            </button>
+          </div>
+          <div
+            className={`
+              py-4 md:px-0 px-2 mt-4 md:mt-0 -mx-2
+              border border-gray-100 md:border-none
+              shadow-md md:shadow-none
+              md:block ${_showFilter ? "" : "hidden"}`}
+          >
             <SelectMenu
               label="Brand"
               selections={brands}
@@ -101,6 +114,50 @@ export default function Cars() {
               className="mb-6"
             />
 
+            {/* Price and Mileage filter */}
+
+            <div className="grid-cols-2 gap-2 mb-6 grid">
+              <label className="block text-lg font-semibold text-gray-700 col-span-2">Price</label>
+              <div className="col-span-1">
+                <label className="block text-lg font-semibold text-gray-700">Min. </label>
+                <NumberRange
+                  value={filterCar.minimumPrice}
+                  step={1000}
+                  onClickButton={(selectedValue) => dispatch(setMinimumPrice(selectedValue))}
+                />
+              </div>
+              <div className="col-span-1">
+                <label className="block text-lg font-semibold text-gray-700">Max. </label>
+                <NumberRange
+                  value={filterCar.maximumPrice}
+                  step={1000}
+                  onClickButton={(selectedValue) => dispatch(setMaximumPrice(selectedValue))}
+                />
+              </div>
+            </div>
+
+            <div className="grid-cols-2 gap-2 mb-6 grid">
+              <label className="block text-lg font-semibold text-gray-700 col-span-2">
+                Mileage
+              </label>
+              <div className="col-span-1">
+                <label className="block text-lg font-semibold text-gray-700">Min. </label>
+                <NumberRange
+                  step={5000}
+                  value={filterCar.minimumMileage}
+                  onClickButton={(selectedValue) => dispatch(setMinimumMileage(selectedValue))}
+                />
+              </div>
+              <div className="col-span-1">
+                <label className="block text-lg font-semibold text-gray-700">Max. </label>
+                <NumberRange
+                  step={5000}
+                  value={filterCar.maximumMileage}
+                  onClickButton={(selectedValue) => dispatch(setMaximumMileage(selectedValue))}
+                />
+              </div>
+            </div>
+
             <Button buttonStyle="primary" onClick={getFilteredCars}>
               Filter
             </Button>
@@ -115,8 +172,8 @@ export default function Cars() {
             </Button>
           </div>
         </div>
-        <div className="col-span-12 lg:col-span-6 p-4">
-          <div className="flex flex-row justify-between py-2 pb-4 items-center">
+        <div className="col-span-12 lg:col-span-6 px-4 md:py-4">
+          <div className="flex flex-row justify-between pb-4 items-center">
             <p className="text-xs md:text-sm text-gray-500 font-thin">
               Page {pagination?.current_page} out of {pagination?.number_of_pages}
             </p>
