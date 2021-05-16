@@ -60,6 +60,7 @@ export default function Cars() {
     <>
       <CarsBanner size="small">{/* <SearchBar /> */}</CarsBanner>
       <GridContainer>
+        {/* Car filter */}
         <div className="col-span-12 lg:col-span-3 px-4 py-4 md:py-8">
           <div className="col-span-12 block md:hidden">
             <button
@@ -172,6 +173,8 @@ export default function Cars() {
             </Button>
           </div>
         </div>
+
+        {/* Car listings */}
         <div className="col-span-12 lg:col-span-6 px-4 md:py-4">
           <div className="flex flex-row justify-between pb-4 items-center">
             <p className="text-xs md:text-sm text-gray-500 font-thin">
@@ -196,6 +199,8 @@ export default function Cars() {
             page_link="/"
           />
         </div>
+
+        {/* Empty block */}
         <div className="hidden md:block lg:col-span-3"></div>
       </GridContainer>
     </>
