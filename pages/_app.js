@@ -12,6 +12,7 @@ import { Modal } from "../components/shared/modals";
 import Notification from "../components/shared/notification";
 import { useCurrentPathIs } from "../hooks/router";
 import { store } from "../lib/store";
+import { DefaultSeo } from "next-seo";
 
 Router.events.on("routeChangeStart", () => NProgress.start());
 Router.events.on("routeChangeComplete", () => NProgress.done());
