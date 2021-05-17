@@ -7,7 +7,19 @@ import useSendWhatsAppMessage from "../../hooks/states/useSendWhatsAppMessage";
 import { dayjs, formatThousand } from "../../lib/utils";
 import Image from "next/image";
 import { AWS_CDN } from "../../lib/utils/config";
-import { useRef, useState } from "react";
+import { useEffect, useState } from "react";
+import {
+  FacebookShareButton,
+  FacebookIcon,
+  TelegramShareButton,
+  TelegramIcon,
+  TwitterShareButton,
+  TwitterIcon,
+  WhatsappShareButton,
+  WhatsappIcon,
+} from "next-share";
+import { useRouter } from "next/router";
+import useDidMountEffect from "../../hooks/useDidMountEffect";
 
 function SellerInformation({ car }) {
   const inquiry = `I would like to inquiry about ${car?.brand} ${car?.model}`;
@@ -58,11 +70,16 @@ function SellerInformation({ car }) {
 
 function CarInformation({ car }) {
   const carImages = JSON.parse(car?.images);
-  const mainImageContainer = useRef(null);
 
   const getMainImgSrc = (image) => `https://${AWS_CDN}/${image.filePath}/750.webp`;
 
   const [mainImgIndex, setMainImgIndex] = useState(0);
+
+  const [url, setUrl] = useState("");
+
+  useEffect(function mount() {
+    setUrl(window.location.href);
+  });
 
   return (
     <>
@@ -78,7 +95,10 @@ function CarInformation({ car }) {
             <div className="mb-4 lg:mb-0 flex place-content-center md:col-span-4 ">
               {/* Load all of the main images container as well */}
               {carImages.map((image, index) => (
-                <div className={index === mainImgIndex ? "block" : "hidden"}>
+                <div
+                  className={index === mainImgIndex ? "block" : "hidden"}
+                  key={getMainImgSrc(image)}
+                >
                   <Image src={getMainImgSrc(image)} height={750} width={1200} loading="eager" />
                 </div>
               ))}
@@ -108,6 +128,29 @@ function CarInformation({ car }) {
             </div>
           </>
         )}
+      </div>
+
+      {/* Social Shares */}
+      <div className="flex flex-row py-2 gap-2 items-center justify-center">
+        <FacebookShareButton url={url}>
+          <FacebookIcon size={32} round />
+        </FacebookShareButton>
+
+        <WhatsappShareButton
+          url={url}
+          title={`BruListing: ${car?.brand} ${car?.model}`}
+          separator=":: "
+        >
+          <WhatsappIcon size={32} round />
+        </WhatsappShareButton>
+
+        <TwitterShareButton url={url} title={`BruListing: ${car?.brand} ${car?.model}`}>
+          <TwitterIcon size={32} round />
+        </TwitterShareButton>
+
+        <TelegramShareButton url={url} title={`BruListing: ${car?.brand} ${car?.model}`}>
+          <TelegramIcon size={32} round />
+        </TelegramShareButton>
       </div>
 
       <div className="bg-white shadow overflow-hidden">
