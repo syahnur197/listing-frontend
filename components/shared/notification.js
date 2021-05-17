@@ -1,7 +1,7 @@
-import { Fragment, useEffect, useState } from "react";
+import { Fragment, useEffect } from "react";
 import { Transition } from "@headlessui/react";
 import { CheckCircleIcon } from "@heroicons/react/outline";
-import { XIcon } from "@heroicons/react/solid";
+import { ExclamationCircleIcon, XIcon } from "@heroicons/react/solid";
 import { useDispatch, useSelector } from "react-redux";
 import { getNotification, resetNotification } from "../../lib/reducers/notification-slice";
 
@@ -38,19 +38,48 @@ export default function Notification() {
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
           >
-            <div className="max-w-sm w-full bg-primary-100 shadow-lg rounded-lg pointer-events-auto ring-1 ring-black ring-opacity-5 overflow-hidden">
+            <div
+              className={`max-w-sm w-full bg-primary-100 shadow-lg rounded-lg pointer-events-auto ring-1 ring-black ring-opacity-5 overflow-hidden ${
+                notification.type === "success" ? "bg-primary-100" : "bg-red-100"
+              }`}
+            >
               <div className="p-4">
                 <div className="flex items-start">
                   <div className="flex-shrink-0">
-                    <CheckCircleIcon className="h-6 w-6 text-green-600" aria-hidden="true" />
+                    {notification.type === "success" && (
+                      <CheckCircleIcon
+                        className={`h-6 w-6 ${
+                          notification.type === "success" ? "text-primary-600" : "text-red-600"
+                        }`}
+                        aria-hidden="true"
+                      />
+                    )}
+                    {notification.type === "danger" && (
+                      <ExclamationCircleIcon
+                        className={`h-6 w-6 ${
+                          notification.type === "success" ? "text-primary-600" : "text-red-600"
+                        }`}
+                        aria-hidden="true"
+                      />
+                    )}
                   </div>
                   <div className="ml-3 w-0 flex-1 pt-0.5">
-                    <p className="text-sm font-semibold text-green-900">{notification.title}</p>
+                    <p
+                      className={`text-sm font-semibold ${
+                        notification.type === "success" ? "text-primary-900" : "text-red-900"
+                      }`}
+                    >
+                      {notification.title}
+                    </p>
                     <p className="mt-1 text-sm text-gray-500">{notification.message}</p>
                   </div>
                   <div className="ml-4 flex-shrink-0 flex">
                     <button
-                      className="rounded-md inline-flex text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500"
+                      className={`rounded-md inline-flex text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 ${
+                        notification.type === "success"
+                          ? "focus:ring-primary-500"
+                          : "focus:ring-red-500"
+                      } `}
                       onClick={() => {
                         dispatch(resetNotification());
                       }}

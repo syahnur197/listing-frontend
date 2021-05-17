@@ -11,7 +11,10 @@ import {
   transmissions,
 } from "../../dummy-data/car";
 import { addCar } from "../../hooks/api/cars";
-import { setSuccessNotification } from "../../lib/reducers/notification-slice";
+import {
+  setDangerNotification,
+  setSuccessNotification,
+} from "../../lib/reducers/notification-slice";
 import DropZone from "../shared/drop-zone";
 import SelectMenu from "../shared/select-menu";
 import ValidationError from "../shared/validation-error";
@@ -68,15 +71,43 @@ export default function AddCar() {
             }, 2000);
           }
         } catch (error) {
-          console.error("the error", error);
-          const { errors } = error.response;
-          if (!errors) {
+          if (error?.response?.status === 401) {
+            dispatch(
+              setDangerNotification({
+                title: "Unauthorised!",
+                message: "Please try to re-login!",
+              })
+            );
+
+            setSubmitting(false);
             return;
           }
+
+          if (!error?.response?.data?.errors) {
+            dispatch(
+              setDangerNotification({
+                title: "Something is not right!",
+                message: "Please contact us to resolve this issue!",
+              })
+            );
+
+            return;
+          }
+
+          const { errors } = error?.response?.data;
 
           errors.forEach((_error) => {
             setFieldError(_error.param, _error.msg);
           });
+
+          setSubmitting(false);
+
+          dispatch(
+            setDangerNotification({
+              title: "Something is not right!",
+              message: "Please re-check your car detail!",
+            })
+          );
         }
       }}
     >
