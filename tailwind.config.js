@@ -17,10 +17,11 @@ module.exports = {
         sans: ["Helvetica Neue", "Arial", "sans-serif"],
       },
       display: ["hover"],
+      brightness: ["hover"],
     },
   },
   variants: {
     extend: {},
   },
-  plugins: [require("@tailwindcss/forms")],
+  plugins: [require("@tailwindcss/forms"), require("@tailwindcss/aspect-ratio")],
 };

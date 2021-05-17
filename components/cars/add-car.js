@@ -1,5 +1,6 @@
 import { Formik } from "formik";
 import { useRouter } from "next/router";
+import { useState } from "react";
 import { useDispatch } from "react-redux";
 import {
   bodyTypes,
@@ -11,6 +12,7 @@ import {
 } from "../../dummy-data/car";
 import { addCar } from "../../hooks/api/cars";
 import { setSuccessNotification } from "../../lib/reducers/notification-slice";
+import DropZone from "../shared/drop-zone";
 import SelectMenu from "../shared/select-menu";
 import ValidationError from "../shared/validation-error";
 
@@ -18,6 +20,8 @@ export default function AddCar() {
   const router = useRouter();
 
   const dispatch = useDispatch();
+
+  const [uploadedImages, setUploadedImages] = useState([]);
 
   const handleClickCancel = () => {
     router.back();
@@ -43,9 +47,16 @@ export default function AddCar() {
       }}
       onSubmit={async (values, { setSubmitting, setFieldError }) => {
         try {
-          const data = await addCar(values);
+          const formData = new FormData();
+          for (const [key, value] of Object.entries(values)) {
+            formData.append(key, value);
+          }
 
-          console.log(data.car);
+          uploadedImages.map((uploadedImage) => {
+            formData.append("images", uploadedImage);
+          });
+
+          const data = await addCar(formData);
 
           if (data?.car) {
             dispatch(
@@ -57,8 +68,8 @@ export default function AddCar() {
             }, 2000);
           }
         } catch (error) {
-          console.error("the error", error.response.data);
-          const { errors } = error.response.data;
+          console.error("the error", error);
+          const { errors } = error.response;
           if (!errors) {
             return;
           }
@@ -85,40 +96,7 @@ export default function AddCar() {
                   Car photo
                 </label>
                 <div className="mt-1 sm:mt-0 sm:col-span-2">
-                  <div className="max-w-xl flex justify-center px-6 pt-10 pb-11 border-2 border-gray-300 border-dashed">
-                    <div className="space-y-1 text-center">
-                      <svg
-                        className="mx-auto h-12 w-12 text-gray-400"
-                        stroke="currentColor"
-                        fill="none"
-                        viewBox="0 0 48 48"
-                        aria-hidden="true"
-                      >
-                        <path
-                          d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02"
-                          strokeWidth={2}
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        />
-                      </svg>
-                      <div className="flex text-sm text-gray-600">
-                        <label
-                          htmlFor="file-upload"
-                          className="relative cursor-pointer bg-white font-medium text-primary-600 hover:text-primary-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-primary-500"
-                        >
-                          <span>Upload a file</span>
-                          <input
-                            id="file-upload"
-                            name="file-upload"
-                            type="file"
-                            className="sr-only"
-                          />
-                        </label>
-                        <p className="pl-1">or drag and drop</p>
-                      </div>
-                      <p className="text-xs text-gray-500">PNG, JPG, GIF up to 10MB</p>
-                    </div>
-                  </div>
+                  <DropZone setUploadedImages={setUploadedImages} />
                 </div>
               </div>
 
@@ -388,6 +366,7 @@ export default function AddCar() {
                 Cancel
               </button>
               <button
+                disabled={props.isSubmitting}
                 onClick={props.handleSubmit}
                 type="submit"
                 className="ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500"

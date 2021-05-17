@@ -1,11 +1,25 @@
 import { dayjs, formatThousand, twoDecimalPlaces } from "../../lib/utils";
+import { AWS_CDN } from "../../lib/utils/config";
+import Image from "next/image";
 
 export default function Car({ car }) {
   return (
     <div className="cursor-pointer flex flex-col md:grid md:grid-cols-12">
-      <div className="py-32 md:py-32 mb-4 lg:mb-0 bg-gray-200 flex place-content-center md:col-span-4">
-        <p className="text-lg">Insert Image Here</p>
-      </div>
+      {!car?.images && (
+        <div className="py-32 md:py-32 mb-4 lg:mb-0 bg-gray-200 flex place-content-center md:col-span-4">
+          <p className="text-lg">Insert Image Here</p>
+        </div>
+      )}
+
+      {car?.images && (
+        <div className="mb-4 lg:mb-0 bg-gray-200 flex place-content-center md:col-span-4">
+          <Image
+            src={`https://${AWS_CDN}/${JSON.parse(car?.images)[0].filePath}/750.webp`}
+            height={500}
+            width={500}
+          />
+        </div>
+      )}
       <div className="p-4 md:col-span-8">
         <p className="font-bold text-2xl md:text-3xl text-gray-800 capitalize">
           {car?.brand} {car?.model}

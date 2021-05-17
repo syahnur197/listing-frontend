@@ -13,6 +13,8 @@ import { store } from "../lib/store";
 import { Modal } from "../components/shared/modals";
 import { Provider as NextAuthProvider } from "next-auth/client";
 import Notification from "../components/shared/notification";
+import { useEffect } from "react";
+import CheckSession from "../components/shared/check-session";
 
 Router.events.on("routeChangeStart", () => NProgress.start());
 Router.events.on("routeChangeComplete", () => NProgress.done());
@@ -26,6 +28,7 @@ function MyApp({ Component, pageProps }) {
   return (
     <Provider store={store}>
       <NextAuthProvider session={pageProps.session}>
+        <CheckSession />
         <div>
           <Head>
             <title>BruListing</title>

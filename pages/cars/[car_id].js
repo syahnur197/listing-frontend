@@ -2,9 +2,12 @@ import { faWhatsapp } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import CarsBanner from "../../components/cars/cars-banner";
 import Container from "../../components/shared/container";
-import { getCars, getCarById, useGetCars } from "../../hooks/api/cars";
+import { getCars, getCarById } from "../../hooks/api/cars";
 import useSendWhatsAppMessage from "../../hooks/states/useSendWhatsAppMessage";
 import { dayjs, formatThousand } from "../../lib/utils";
+import Image from "next/image";
+import { AWS_CDN } from "../../lib/utils/config";
+import { useRef, useState } from "react";
 
 function SellerInformation({ car }) {
   const inquiry = `I would like to inquiry about ${car?.brand} ${car?.model}`;
@@ -54,12 +57,57 @@ function SellerInformation({ car }) {
 }
 
 function CarInformation({ car }) {
+  const carImages = JSON.parse(car?.images);
+  const mainImageContainer = useRef(null);
+
+  const getMainImgSrc = (image) => `https://${AWS_CDN}/${image.filePath}/750.webp`;
+
+  const [mainImgIndex, setMainImgIndex] = useState(0);
+
   return (
     <>
       <div className="bg-white shadow overflow-hidden mb-4 md:px-6 md:py-5">
-        <div className="py-32 md:py-64 bg-gray-200 flex place-content-center">
-          <p className="text-lg">Insert Image Here</p>
-        </div>
+        {!car?.images && (
+          <div className="py-32 md:py-64 bg-gray-200 flex place-content-center">
+            <p className="text-lg">Insert Image Here</p>
+          </div>
+        )}
+
+        {car?.images && (
+          <>
+            <div className="mb-4 lg:mb-0 flex place-content-center md:col-span-4 ">
+              {/* Load all of the main images container as well */}
+              {carImages.map((image, index) => (
+                <div className={index === mainImgIndex ? "block" : "hidden"}>
+                  <Image src={getMainImgSrc(image)} height={750} width={1200} loading="eager" />
+                </div>
+              ))}
+            </div>
+            {/* Load all images thumbnail */}
+            <div className="grid grid-cols-5 gap-2 mt-2">
+              {carImages.length > 1 &&
+                carImages.map((image, index) => (
+                  <div
+                    key={getMainImgSrc(image)}
+                    className="cursor-pointer filter hover:brightness-150 transition duration-150 ease-in"
+                    onClick={() => {
+                      setMainImgIndex(index);
+                    }}
+                    onMouseEnter={() => {
+                      setMainImgIndex(index);
+                    }}
+                  >
+                    <Image
+                      src={`https://${AWS_CDN}/${image.filePath}/300.webp`}
+                      height={300}
+                      width={300}
+                      className="object-cover"
+                    />
+                  </div>
+                ))}
+            </div>
+          </>
+        )}
       </div>
 
       <div className="bg-white shadow overflow-hidden">

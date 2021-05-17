@@ -1,4 +1,5 @@
 import { PlusIcon } from "@heroicons/react/solid";
+import { useSession } from "next-auth/client";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
@@ -33,6 +34,7 @@ export default function Cars() {
   const query = router.query;
   const { page } = query;
   const { data, error, isValidating } = useGetCars(page ?? 1);
+  const [session, loading] = useSession();
 
   const [_showFilter, _setShowFilter] = useState(false);
 
@@ -74,7 +76,7 @@ export default function Cars() {
           </div>
           <div
             className={`
-              py-4 md:px-0 px-2 mt-4 md:mt-0 -mx-2
+              py-4 md:px-8 px-2 mt-4 md:mt-0 -mx-2
               border border-gray-100 md:border-none
               shadow-md md:shadow-none
               md:block ${_showFilter ? "" : "hidden"}`}
@@ -180,15 +182,17 @@ export default function Cars() {
             <p className="text-xs md:text-sm text-gray-500 font-thin">
               Page {pagination?.current_page} out of {pagination?.number_of_pages}
             </p>
-            <Link href="/cars/add">
-              <a className="flex bg-primary-300 text-primary-800 hover:bg-primary-400 hover:text-primary-900 py-1 pl-1 pr-2 md:py-2 md:px-4 text-base md:text-lg font-medium ">
-                <PlusIcon
-                  className="h-5 w-5 md:h-7 md:w-7 text-primary-500 group-hover:text-primary-400 mr-2"
-                  aria-hidden="true"
-                />
-                Add Car
-              </a>
-            </Link>
+            {session && (
+              <Link href="/cars/add">
+                <a className="flex bg-primary-300 text-primary-800 hover:bg-primary-400 hover:text-primary-900 py-1 pl-1 pr-2 md:py-2 md:px-4 text-base md:text-lg font-medium ">
+                  <PlusIcon
+                    className="h-5 w-5 md:h-7 md:w-7 text-primary-500 group-hover:text-primary-400 mr-2"
+                    aria-hidden="true"
+                  />
+                  Add Car
+                </a>
+              </Link>
+            )}
           </div>
 
           <CarsList />
