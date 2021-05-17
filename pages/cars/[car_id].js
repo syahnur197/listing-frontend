@@ -68,9 +68,18 @@ function SellerInformation({ car }) {
 }
 
 function CarInformation({ car }) {
-  const carImages = JSON.parse(car?.images);
+  const carImages = JSON.parse(car?.images) ?? [];
 
   const getMainImgSrc = (image) => `https://${AWS_CDN}/${image.filePath}/750.webp`;
+
+  const imagesArray = carImages?.map((carImage) => {
+    return {
+      url: getMainImgSrc(carImage),
+      height: 500,
+      width: 750,
+      alt: `${car.brand} ${car.model}`,
+    };
+  });
 
   const [mainImgIndex, setMainImgIndex] = useState(0);
 
@@ -87,14 +96,7 @@ function CarInformation({ car }) {
           url: url,
           title: `${car.brand} ${car.model}`,
           description: car.description,
-          images: [
-            {
-              url: getMainImgSrc(carImages[0]),
-              height: 500,
-              width: 750,
-              alt: `${car.brand} ${car.model}`,
-            },
-          ],
+          images: imagesArray,
         }}
       />
       <div className="bg-white shadow overflow-hidden mb-4 md:px-6 md:py-5">
