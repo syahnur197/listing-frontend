@@ -1,20 +1,17 @@
+import { Provider as NextAuthProvider } from "next-auth/client";
 import Head from "next/head";
-import Footer from "../components/footer";
-import Header from "../components/shared/header";
-
 import { Router } from "next/router";
-import { useCurrentPathIs } from "../hooks/router";
-
 import NProgress from "nprogress";
 import "nprogress/nprogress.css";
-import "tailwindcss/tailwind.css";
 import { Provider } from "react-redux";
-import { store } from "../lib/store";
-import { Modal } from "../components/shared/modals";
-import { Provider as NextAuthProvider } from "next-auth/client";
-import Notification from "../components/shared/notification";
-import { useEffect } from "react";
+import "tailwindcss/tailwind.css";
+import Footer from "../components/footer";
 import CheckSession from "../components/shared/check-session";
+import Header from "../components/shared/header";
+import { Modal } from "../components/shared/modals";
+import Notification from "../components/shared/notification";
+import { useCurrentPathIs } from "../hooks/router";
+import { store } from "../lib/store";
 
 Router.events.on("routeChangeStart", () => NProgress.start());
 Router.events.on("routeChangeComplete", () => NProgress.done());
@@ -29,6 +26,18 @@ function MyApp({ Component, pageProps }) {
     <Provider store={store}>
       <NextAuthProvider session={pageProps.session}>
         <CheckSession />
+        <DefaultSeo
+          titleTemplate="BruListing | %s"
+          openGraph={{
+            type: "website",
+            locale: "en_IE",
+            url: "https://brulisting.syahnurnizam.com/",
+            site_name: "BruListing",
+          }}
+          twitter={{
+            cardType: "summary_large_image",
+          }}
+        />
         <div>
           <Head>
             <title>BruListing</title>

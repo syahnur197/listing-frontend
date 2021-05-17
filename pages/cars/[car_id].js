@@ -18,8 +18,7 @@ import {
   WhatsappShareButton,
   WhatsappIcon,
 } from "next-share";
-import { useRouter } from "next/router";
-import useDidMountEffect from "../../hooks/useDidMountEffect";
+import { NextSeo } from "next-seo";
 
 function SellerInformation({ car }) {
   const inquiry = `I would like to inquiry about ${car?.brand} ${car?.model}`;
@@ -83,6 +82,21 @@ function CarInformation({ car }) {
 
   return (
     <>
+      <NextSeo
+        openGraph={{
+          url: url,
+          title: `${car.brand} ${car.model}`,
+          description: car.description,
+          images: [
+            {
+              url: getMainImgSrc(carImages[0]),
+              height: 500,
+              width: 750,
+              alt: `${car.brand} ${car.model}`,
+            },
+          ],
+        }}
+      />
       <div className="bg-white shadow overflow-hidden mb-4 md:px-6 md:py-5">
         {!car?.images && (
           <div className="py-32 md:py-64 bg-gray-200 flex place-content-center">
