@@ -1,24 +1,24 @@
 import { faWhatsapp } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { NextSeo } from "next-seo";
+import {
+  FacebookIcon,
+  FacebookShareButton,
+  TelegramIcon,
+  TelegramShareButton,
+  TwitterIcon,
+  TwitterShareButton,
+  WhatsappIcon,
+  WhatsappShareButton,
+} from "next-share";
+import Image from "next/image";
+import { useEffect, useState } from "react";
 import CarsBanner from "../../components/cars/cars-banner";
 import Container from "../../components/shared/container";
-import { getCars, getCarById } from "../../hooks/api/cars";
+import { getCarById, getCars } from "../../hooks/api/cars";
 import useSendWhatsAppMessage from "../../hooks/states/useSendWhatsAppMessage";
 import { dayjs, formatThousand } from "../../lib/utils";
-import Image from "next/image";
 import { AWS_CDN } from "../../lib/utils/config";
-import { useEffect, useState } from "react";
-import {
-  FacebookShareButton,
-  FacebookIcon,
-  TelegramShareButton,
-  TelegramIcon,
-  TwitterShareButton,
-  TwitterIcon,
-  WhatsappShareButton,
-  WhatsappIcon,
-} from "next-share";
-import { NextSeo } from "next-seo";
 
 function SellerInformation({ car }) {
   const inquiry = `I would like to inquiry about ${car?.brand} ${car?.model}`;

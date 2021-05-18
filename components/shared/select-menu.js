@@ -1,5 +1,5 @@
 /* This example requires Tailwind CSS v2.0+ */
-import { Fragment, useEffect, useState } from "react";
+import React, { Fragment, memo, useEffect, useState } from "react";
 import { Listbox, Transition } from "@headlessui/react";
 import { CheckIcon, SelectorIcon } from "@heroicons/react/solid";
 import useDidMountEffect from "../../hooks/useDidMountEffect";
@@ -8,13 +8,7 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
-export default function SelectMenu({
-  label = null,
-  selections,
-  className,
-  selectedValue,
-  onSelectedValue,
-}) {
+function SelectMenu({ label = null, selections, className, selectedValue, onSelectedValue }) {
   const [selected, setSelected] = useState(selections[0]);
 
   // set the selected based on the value in redux on mount
@@ -58,10 +52,9 @@ export default function SelectMenu({
               {label}
             </Listbox.Label>
           )}
-          <div className="mt-1 relative">
+          <div className={`mt-1 relative ${className}`}>
             <Listbox.Button
               className={
-                className +
                 " bg-white relative w-full border border-gray-300 shadow-sm pl-3 pr-10 py-2 text-left cursor-default focus:outline-none focus:ring-1 focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
               }
             >
@@ -129,3 +122,5 @@ export default function SelectMenu({
     </Listbox>
   );
 }
+
+export default memo(SelectMenu);
