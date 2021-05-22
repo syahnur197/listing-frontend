@@ -179,10 +179,8 @@ export default function Register() {
                     value={props.values.mobile_number}
                     onChange={(event) => props.setFieldValue("mobile_number", event.target.value)}
                     required
-                    min="7000000"
-                    max="8999999"
                     className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-primary-500 focus:border-primary-500 focus:z-10 sm:text-sm"
-                    placeholder="Mobile Number - optional"
+                    placeholder="Mobile Number e.g., 6738885555"
                   />
                   <ValidationError errorMessage={props.errors.mobile_number} />
                 </div>
