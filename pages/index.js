@@ -12,7 +12,8 @@ import NumberRange from "../components/shared/number-range";
 import Pagination from "../components/shared/pagination";
 import SelectMenu from "../components/shared/select-menu";
 import { bodyTypes, brands, driveTypes, fuelTypes, transmissions } from "../dummy-data/car";
-import { useGetCars, useGetFilteredCar } from "../hooks/api/cars";
+import { useGetCars } from "../hooks/api/cars";
+import { getFilteredCars } from "../lib/backend-api/cars";
 import { selectPagination, setCars, setPagination } from "../lib/reducers/cars-result-slice";
 import {
   getFilterCarState,
@@ -51,9 +52,9 @@ export default function Cars() {
 
   const propertiesToFilter = useSelector(getFiltration);
 
-  const getFilteredCars = async () => {
+  const filterCars = async () => {
     _setShowFilter(false);
-    const filteredResults = await useGetFilteredCar(propertiesToFilter);
+    const filteredResults = await getFilteredCars(propertiesToFilter);
     dispatch(setCars(filteredResults.cars));
     dispatch(setPagination(filteredResults.pagination));
   };
@@ -161,7 +162,7 @@ export default function Cars() {
               </div>
             </div>
 
-            <Button buttonStyle="primary" onClick={getFilteredCars}>
+            <Button buttonStyle="primary" onClick={filterCars}>
               Filter
             </Button>
 

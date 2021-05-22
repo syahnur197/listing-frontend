@@ -10,7 +10,7 @@ import {
   paymentTerms,
   transmissions,
 } from "../../dummy-data/car";
-import { addCar } from "../../hooks/api/cars";
+import { addCar } from "../../lib/backend-api/cars";
 import {
   setDangerNotification,
   setSuccessNotification,

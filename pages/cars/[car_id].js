@@ -15,8 +15,8 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import CarsBanner from "../../components/cars/cars-banner";
 import Container from "../../components/shared/container";
-import { getCarById, getCars } from "../../hooks/api/cars";
 import useSendWhatsAppMessage from "../../hooks/states/useSendWhatsAppMessage";
+import { getCarById, getCars } from "../../lib/backend-api/cars";
 import { dayjs, formatThousand } from "../../lib/utils";
 import { AWS_CDN } from "../../lib/utils/config";
 
