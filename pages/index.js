@@ -11,7 +11,14 @@ import GridContainer from "../components/shared/grid-container";
 import NumberRange from "../components/shared/number-range";
 import Pagination from "../components/shared/pagination";
 import SelectMenu from "../components/shared/select-menu";
-import { bodyTypes, brands, driveTypes, fuelTypes, transmissions } from "../dummy-data/car";
+import {
+  bodyTypes,
+  brands,
+  driveTypes,
+  fuelTypes,
+  paymentTerms,
+  transmissions,
+} from "../dummy-data/car";
 import { useGetCars } from "../hooks/api/cars";
 import { getFilteredCars } from "../lib/backend-api/cars";
 import { selectPagination, setCars, setPagination } from "../lib/reducers/cars-result-slice";
@@ -27,6 +34,7 @@ import {
   setMaximumPrice,
   setMinimumMileage,
   setMinimumPrice,
+  setPaymentTerm,
   setTransmission,
 } from "../lib/reducers/filter-car-slice";
 
@@ -64,8 +72,8 @@ export default function Cars() {
       <CarsBanner size="small">{/* <SearchBar /> */}</CarsBanner>
       <GridContainer>
         {/* Car filter */}
-        <div className="col-span-12 lg:col-span-3 px-4 py-4 md:py-8">
-          <div className="col-span-12 block md:hidden">
+        <div className="col-span-12 lg:col-span-4 xl:col-span-3 px-4 py-4 md:py-8">
+          <div className="col-span-12 block lg:hidden">
             <button
               onClick={() => {
                 _setShowFilter(!_showFilter);
@@ -77,10 +85,10 @@ export default function Cars() {
           </div>
           <div
             className={`
-              py-4 md:px-8 px-2 mt-4 md:mt-0 -mx-2
+              py-4 xl:px-8 px-2 mt-4 md:mt-0 -mx-2
               border border-gray-100 md:border-none
               shadow-md md:shadow-none
-              md:block ${_showFilter ? "" : "hidden"}`}
+              lg:block ${_showFilter ? "" : "hidden"}`}
           >
             <SelectMenu
               label="Brand"
@@ -115,6 +123,13 @@ export default function Cars() {
               selections={driveTypes}
               selectedValue={filterCar.driveType}
               onSelectedValue={(selectedValue) => dispatch(setDriveType(selectedValue))}
+              className="mb-6"
+            />
+            <SelectMenu
+              label="Payment Term"
+              selections={paymentTerms}
+              selectedValue={filterCar.paymentTerm}
+              onSelectedValue={(selectedValue) => dispatch(setPaymentTerm(selectedValue))}
               className="mb-6"
             />
 
@@ -178,7 +193,7 @@ export default function Cars() {
         </div>
 
         {/* Car listings */}
-        <div className="col-span-12 lg:col-span-6 px-4 md:py-4">
+        <div className="col-span-12 lg:col-span-8 xl:col-span-6 px-4 md:py-4">
           <div className="flex flex-row justify-between pb-4 items-center">
             <p className="text-xs md:text-sm text-gray-500 font-thin">
               Page {pagination?.current_page} out of {pagination?.number_of_pages}
@@ -206,7 +221,7 @@ export default function Cars() {
         </div>
 
         {/* Empty block */}
-        <div className="hidden md:block lg:col-span-3"></div>
+        <div className="hidden md:block xl:col-span-3"></div>
       </GridContainer>
     </>
   );

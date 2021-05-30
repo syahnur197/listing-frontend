@@ -2,7 +2,7 @@ import styles from "../../styles/cars.module.css";
 
 export default function CarsBanner({ children, size = "large" }) {
   const sizes = {
-    small: "py-8 md:py-8",
+    small: "py-8 md:py-20",
     large: "py-16 md:pt-32 md:pb-40 ",
   };
   return (

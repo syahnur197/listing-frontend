@@ -10,18 +10,12 @@ const currentYear = new Date().getFullYear();
 
 export default function Footer() {
   return (
-    <footer className="bg-gray-700">
+    <footer className="bg-gray-700 flex flex-none">
       <div className="max-w-7xl mx-auto py-4 px-4 overflow-hidden sm:px-6 lg:px-8">
-        <nav
-          className="-mx-5 -my-2 flex flex-wrap justify-center"
-          aria-label="Footer"
-        >
+        <nav className="-mx-5 -my-2 flex flex-wrap justify-center" aria-label="Footer">
           {navigation.main.map((item, index) => (
             <div key={index} className="px-5 py-2">
-              <a
-                href={item.href}
-                className="text-base text-gray-500 hover:text-gray-900"
-              >
+              <a href={item.href} className="text-base text-gray-500 hover:text-gray-900">
                 {item.name}
               </a>
             </div>

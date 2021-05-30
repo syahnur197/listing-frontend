@@ -19,9 +19,11 @@ Router.events.on("routeChangeComplete", () => NProgress.done());
 Router.events.on("routeChangeError", () => NProgress.done());
 
 function MyApp({ Component, pageProps }) {
-  const authPages = ["/auth/login", "/auth/register"];
+  const dashbordPages = ["/dashboard"];
+  const authPages = [...dashbordPages, "/auth/login", "/auth/register"];
 
   const isAuthPage = useCurrentPathIs(authPages);
+  const isDashboardPage = useCurrentPathIs(dashbordPages);
 
   return (
     <Provider store={store}>
@@ -44,7 +46,7 @@ function MyApp({ Component, pageProps }) {
             <title>BruListing</title>
           </Head>
           {!isAuthPage && <Header />}
-          <div className={isAuthPage ? "h-screen bg-white flex flex-col flex-grow-0" : undefined}>
+          <div className={isAuthPage ? "h-screen bg-white flex flex-col flex-grow-0" : ""}>
             <div className="bg-white font-sans flex-grow">
               <Component {...pageProps} />
               <Modal />

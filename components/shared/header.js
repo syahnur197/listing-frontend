@@ -1,6 +1,7 @@
 import { useSession } from "next-auth/client";
 import Link from "next/link";
 import Logo from "./logo";
+import UserPopover from "./user-popover";
 
 const navigation = [
   { name: "Cars", href: "/" },
@@ -35,12 +36,12 @@ export default function Header() {
             {!session && (
               <>
                 <Link href="/auth/login">
-                  <a className="inline-block bg-primary-500 py-1 px-2 border border-transparent text-base font-medium text-white hover:bg-opacity-75">
+                  <a className="inline-block bg-primary-500 py-1 px-2 border border-transparent text-base font-semibold text-white hover:bg-opacity-75 transition delay-150 ease-in-out">
                     Log in
                   </a>
                 </Link>
                 <Link href="/auth/register">
-                  <a className="inline-block bg-white py-2 px-2 border border-transparent text-base font-medium text-primary-600 hover:bg-primary-50">
+                  <a className="inline-block bg-white py-2 px-2 border border-transparent text-base font-semibold text-primary-600 hover:text-primary-700">
                     Register
                   </a>
                 </Link>
@@ -49,11 +50,7 @@ export default function Header() {
 
             {session && (
               <>
-                <Link href="/api/auth/signout">
-                  <a className="inline-block bg-white py-2 px-2 border border-transparent text-base font-medium text-primary-600 hover:bg-primary-50">
-                    Log Out
-                  </a>
-                </Link>
+                <UserPopover />
               </>
             )}
           </div>
